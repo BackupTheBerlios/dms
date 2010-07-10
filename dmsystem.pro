@@ -54,7 +54,7 @@ CONFIG(debug, debug|release) {
   DEFINES -= DMS_DEBUG
 
   mac {
-    QMAKE_POST_LINK = strip -s build/bin/dboxfe.app/Contents/MacOS/DMSystem
+    QMAKE_POST_LINK = strip -s build/bin/DMSystem.app/Contents/MacOS/DMSystem
   }
   unix:!mac {
     QMAKE_POST_LINK = strip -s build/bin/DMSystem
