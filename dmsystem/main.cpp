@@ -37,6 +37,7 @@ int main( int argc, char **argv ) {
   app.setOrganizationDomain("http://dms.berlios.de/index/");
 
   DMSystem *dmsystem = new DMSystem();
+  dmsystem->setArguments(argc, argv);
   dmsystem->show();
 
   app.connect(&app, SIGNAL(lastWindowClosed()), &app, SLOT(quit()));

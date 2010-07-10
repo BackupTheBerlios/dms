@@ -27,6 +27,10 @@
 
 #include <QMainWindow>
 
+class QAction;
+class QMdiArea;
+class QMdiSubWindow;
+
 namespace asaal {
 
   class DMSystem : public QMainWindow {
@@ -37,6 +41,24 @@ namespace asaal {
       DMSystem( QWidget *parent = 0 );
 
       void setArguments( int argc, char **argv );
+
+    private:
+      QAction *mActionWorkSheet;
+      QAction *mActionUsers;
+      QAction *mActionGroup;
+      QAction *mActionDocuments;
+      QAction *mActionSearch;
+      QAction *mActionLogin;
+      QAction *mActionPreferences;
+
+      QMdiArea *mMdiArea;
+
+      QMdiSubWindow *mSubWindowWorkSheet;
+
+      void initializeToolBar();
+      void initializeMenus();
+      void initializeStatusBar();
+      void initializePlugins();
   };
 }
 

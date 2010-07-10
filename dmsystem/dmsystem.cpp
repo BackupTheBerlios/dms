@@ -24,11 +24,80 @@
 
 #include "dmsystem.h"
 
+#include <QAction>
+#include <QApplication>
+#include <QMdiArea>
+#include <QMdiSubWindow>
+#include <QMenu>
+#include <QToolBar>
+#include <QStatusBar>
+
 using namespace asaal;
 
 DMSystem::DMSystem( QWidget *parent )
-  : QMainWindow( parent ) {
+  : QMainWindow( parent ),
+    mActionWorkSheet(0),
+    mActionUsers(0),
+    mActionGroup(0),
+    mActionDocuments(0),
+    mActionSearch(0),
+    mActionLogin(0),
+    mActionPreferences(0) {
+
+  setWindowTitle(QApplication::applicationName());
+
+#if defined(Q_WS_MAC)
+  setUnifiedTitleAndToolBarOnMac(true);
+#endif
+
+  mMdiArea = new QMdiArea();
+  setCentralWidget(mMdiArea);
+
+  initializeToolBar();
+  initializeMenus();
+  initializeStatusBar();
+  initializePlugins();
 }
 
 void DMSystem::setArguments( int argc, char **argv ) {
+}
+
+void DMSystem::initializeToolBar() {
+
+  QToolBar *toolbar = addToolBar( tr( "DMSystem") );
+  toolbar->setMovable(false);
+  toolbar->setFloatable(false);
+  toolbar->setIconSize(QSize(24, 24));
+  toolbar->setToolButtonStyle(Qt::ToolButtonTextUnderIcon);
+
+  mActionWorkSheet = new QAction(QIcon(":/gohome"), tr("Worksheet"), this);
+  mActionUsers = new QAction(QIcon(":/users"), tr("Users"), this);
+  mActionGroup = new QAction(QIcon(":/group"), tr("Groups"), this);
+  mActionDocuments = new QAction(QIcon(":/book"), tr("Doucments"), this);
+  mActionSearch = new QAction(QIcon(":/search"), tr("Search"), this);
+  mActionLogin = new QAction(QIcon(":/secury"), tr("Login"), this);
+  mActionPreferences = new QAction(QIcon(":/preferences"), tr("Preferences"), this);
+
+  toolbar->addAction(mActionLogin);
+  toolbar->addAction(mActionWorkSheet);
+  toolbar->addSeparator();
+
+  toolbar->addAction(mActionUsers);
+  toolbar->addAction(mActionGroup);
+  toolbar->addAction(mActionDocuments);
+  toolbar->addSeparator();
+
+  toolbar->addAction(mActionSearch);
+  toolbar->addAction(mActionPreferences);
+}
+
+void DMSystem::initializeMenus() {
+}
+
+void DMSystem::initializeStatusBar() {
+
+  statusBar()->show();
+}
+
+void DMSystem::initializePlugins() {
 }

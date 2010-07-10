@@ -27,3 +27,4 @@ DEPENDPATH += $$PWD
 
 HEADERS += worksheet.h
 SOURCES += worksheet.cpp
+FORMS += worksheet.ui

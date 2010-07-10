@@ -91,7 +91,7 @@ mac {
   }
   else {
     contains(QT_VERSION, ^4\.[0-5]\..*) {
-      error("Can't build DBoxFE with Qt version $${QT_VERSION}.")
+      error("Can't build DMSystem with Qt version $${QT_VERSION}.")
     }
   }
 }
