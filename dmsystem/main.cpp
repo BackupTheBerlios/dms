@@ -21,3 +21,25 @@
  * Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  *
  */
+
+#include "dmsystem.h"
+
+#include <QApplication>
+
+using namespace asaal;
+
+int main( int argc, char **argv ) {
+
+  QApplication app(argc, argv);
+  app.setApplicationName("DMS - Document Management System");
+  app.setApplicationVersion("0.9.5");
+  app.setOrganizationName("Alexander Saal");
+  app.setOrganizationDomain("http://dms.berlios.de/index/");
+
+  DMSystem *dmsystem = new DMSystem();
+  dmsystem->show();
+
+  app.connect(&app, SIGNAL(lastWindowClosed()), &app, SLOT(quit()));
+
+  return app.exec();
+}

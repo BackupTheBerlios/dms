@@ -9,7 +9,7 @@
     <file alias="license">misc/COPYING</file>    <file alias="install">misc/INSTALL</file>    <file alias="readme">misc/README</file>    <file alias="todo">misc/TODO</file>
 
     <!-- Database SQL-Scripts -->
-    <file alias="dms_mdb">sql/dms.mdb </file>
+    <file alias="dms_mdb">sql/dms.mdb</file>
     <file alias="mssql_script">sql/mssql.sql</file>
     <file alias="mysql_script">sql/mysql.sql</file>
 

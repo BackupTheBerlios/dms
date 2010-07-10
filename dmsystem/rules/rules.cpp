@@ -21,3 +21,11 @@
  * Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  *
  */
+
+#include "rules.h"
+
+using namespace asaal;
+
+Rules::Rules( QWidget *parent )
+  : QWidget( parent ) {
+}

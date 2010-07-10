@@ -21,3 +21,21 @@
  * Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  *
  */
+
+#ifndef LOGIN_H
+#define LOGIN_H
+
+#include <QDialog>
+
+namespace asaal {
+
+  class Login : public QDialog {
+
+      Q_OBJECT
+
+    public:
+      Login( QWidget *parent = 0 );
+  };
+}
+
+#endif // LOGIN_H

@@ -21,3 +21,21 @@
  * Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  *
  */
+
+#ifndef PREFERENCES_H
+#define PREFERENCES_H
+
+#include <QWidget>
+
+namespace asaal {
+
+  class Preferences : public QWidget {
+
+      Q_OBJECT
+
+    public:
+      Preferences( QWidget *parent = 0 );
+  };
+}
+
+#endif // PREFERENCES_H

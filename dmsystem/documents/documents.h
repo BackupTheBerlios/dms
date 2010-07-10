@@ -21,3 +21,21 @@
  * Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  *
  */
+
+#ifndef DOCUMENTS_H
+#define DOCUMENTS_H
+
+#include <QWidget>
+
+namespace asaal {
+
+  class Documnets : public QWidget {
+
+      Q_OBJECT
+
+    public:
+      Documnets( QWidget *parent = 0 );
+  };
+}
+
+#endif // DOCUMENTS_H

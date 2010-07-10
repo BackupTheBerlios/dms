@@ -21,3 +21,21 @@
  * Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  *
  */
+
+#ifndef SEARCH_H
+#define SEARCH_H
+
+#include <QWidget>
+
+namespace asaal {
+
+  class Search : public QWidget {
+
+      Q_OBJECT
+
+    public:
+      Search( QWidget *parent = 0 );
+  };
+}
+
+#endif // SEARCH_H

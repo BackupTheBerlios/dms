@@ -21,3 +21,11 @@
  * Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  *
  */
+
+#include "preferences.h"
+
+using namespace asaal;
+
+Preferences::Preferences( QWidget *parent )
+  : QWidget( parent ) {
+}

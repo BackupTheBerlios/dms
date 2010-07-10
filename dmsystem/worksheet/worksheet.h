@@ -21,3 +21,21 @@
  * Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  *
  */
+
+#ifndef WORKSHEET_H
+#define WORKSHEET_H
+
+#include <QWidget>
+
+namespace asaal {
+
+  class WorkSheet : public QWidget {
+
+      Q_OBJECT
+
+    public:
+      WorkSheet( QWidget *parent = 0 );
+  };
+}
+
+#endif // WORKSHEET_H

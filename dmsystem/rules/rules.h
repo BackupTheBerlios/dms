@@ -21,3 +21,21 @@
  * Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  *
  */
+
+#ifndef RULES_H
+#define RULES_H
+
+#include <QWidget>
+
+namespace asaal {
+
+  class Rules : public QWidget {
+
+      Q_OBJECT
+
+    public:
+      Rules( QWidget *parent = 0 );
+  };
+}
+
+#endif // RULES_H

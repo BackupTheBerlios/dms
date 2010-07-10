@@ -21,3 +21,23 @@
  * Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  *
  */
+
+#ifndef DMSYSTEM_H
+#define DMSYSTEM_H
+
+#include <QMainWindow>
+
+namespace asaal {
+
+  class DMSystem : public QMainWindow {
+
+      Q_OBJECT
+
+    public:
+      DMSystem( QWidget *parent = 0 );
+
+      void setArguments( int argc, char **argv );
+  };
+}
+
+#endif // DMSYSTEM_H

@@ -21,3 +21,24 @@
  * Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  *
  */
+
+#ifndef DATABASE_H
+#define DATABASE_H
+
+#include <QObject>
+
+namespace asaal {
+
+  class Database : public QObject {
+
+      Q_OBJECT
+
+    public:
+      ~Database();
+
+    protected:
+      Database( QObject *parent = 0 );
+  };
+}
+
+#endif // DATABASE_H

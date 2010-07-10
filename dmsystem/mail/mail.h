@@ -21,3 +21,21 @@
  * Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  *
  */
+
+#ifndef MAIL_H
+#define MAIL_H
+
+#include <QWidget>
+
+namespace asaal {
+
+  class Mail : public QWidget {
+
+      Q_OBJECT
+
+    public:
+      Mail( QWidget *parent = 0 );
+  };
+}
+
+#endif // MAIL_H

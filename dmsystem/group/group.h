@@ -21,3 +21,21 @@
  * Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  *
  */
+
+#ifndef GROUP_H
+#define GROUP_H
+
+#include <QWidget>
+
+namespace asaal {
+
+  class Group : public QWidget {
+
+      Q_OBJECT
+
+    public:
+      Group( QWidget *parent = 0 );
+  };
+}
+
+#endif // GROUP_H
