@@ -1,0 +1,17 @@
+<RCC>
+  <qresource prefix="/" >
+
+    <!-- Application images -->
+    <file alias="alert">images/alert.png</file>    <file alias="calendar">images/cal.png</file>    <file alias="dbreload">images/dbreload.png</file>    <file alias="db">images/db.png</file>    <file alias="dbedit">images/dbedit.png</file>    <file alias="dbs">images/dbs.png</file>    <file alias="email">images/email.png</file>    <file alias="error">images/error.png</file>    <file alias="exit">images/exit.png</file>    <file alias="Folder">images/Folder.png</file>    <file alias="gohome">images/gohome.png</file>    <file alias="help">images/help.png</file>    <file alias="ok">images/ok.png</file>    <file alias="preferences">images/preferences.png</file>    <file alias="printer">images/printer.png</file>    <file alias="reload">images/reload.png</file>    <file alias="remove">images/remove.png</file>    <file alias="save">images/save.png</file>    <file alias="saveas">images/saveas.png</file>    <file alias="search">images/search.png</file>    <file alias="secury">images/secury.png</file>    <file alias="statistics">images/statistics.png</file>    <file alias="stop_error">images/stop_error.png</file>    <file alias="update">images/update.png</file>    <file alias="user_add">images/user_add.png</file>    <file alias="user_remove">images/user_remove.png</file>    <file alias="users">images/users.png</file>
+
+    <!-- Misc. -->
+    <file alias="author">misc/AUTHOR</file>
+    <file alias="license">misc/COPYING</file>    <file alias="install">misc/INSTALL</file>    <file alias="readme">misc/README</file>    <file alias="todo">misc/TODO</file>
+
+    <!-- Database SQL-Scripts -->
+    <file alias="dms_mdb">sql/dms.mdb </file>
+    <file alias="mssql_script">sql/mssql.sql</file>
+    <file alias="mysql_script">sql/mysql.sql</file>
+
+  </qresource>
+</RCC>
