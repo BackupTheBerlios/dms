@@ -25,19 +25,84 @@
 #ifndef DATABASE_H
 #define DATABASE_H
 
+#include <QDateTime>
+#include <QList>
 #include <QObject>
+
+class QString;
+class QStringList;
 
 namespace asaal {
 
+  struct User {
+    QString mId;
+    QString mName;
+    QString mPassword;
+  };
+  
+  struct Groups {
+    QString mId;
+    QString mName;
+    QString mDescription;
+  };
+
+  struct Document {
+    QString mId;
+    QString mName;
+    QString mPath;
+    QDateTime mCreated;
+    QDateTime mUpdated;
+
+    QList<User *> mUsers;
+    QList<Groups *> mGroups;
+  };
+  
   class Database : public QObject {
 
       Q_OBJECT
 
     public:
-      ~Database();
+      enum DatabaseType {
+
+        MySQL = 0,  // MySQL 5.1 or higher.
+        SQLite3     // SQLite3 not supported at this time.
+      };
+
+      static Database *databaseInstance();
+
+      void setDatabaseInformation( const int port, const QString &host, QString &database, const QString &user, const QString &userPassword );
+
+      bool createConnection( const DatabaseType type = MySQL );
+      bool closeConnection();
+
+      bool login( const User *user );
+      bool logout();
+
+      void createUser( const User *user );
+      const QList<User *> users() const;
+
+      void createDocument( const Document *doc );
+      const QList<Document *> documents() const;
+    
+      void createGroup( const Groups *group );
+      const QList<Groups *> groups() const;
+
+      void addDocumentToGroup( const QString &documentId, const QString &groupId );
+      void addDocumentToUser( const QString &documentId, const QString &userId );
+    
+      inline const User *currentUser() const { return mCurrentUser; }
+      inline const QString lastErrorMessage() const { return mLastErrorMessage; }
+
+    private:
+      User *mCurrentUser;
+      QString mLastErrorMessage;
+      bool mConnectionIsAvailable;
+
+      void initializeDatabase();
 
     protected:
       Database( QObject *parent = 0 );
+      ~Database() {}
   };
 }
 

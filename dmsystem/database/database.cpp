@@ -24,11 +24,135 @@
 
 #include "database.h"
 
+#include <QList>
+#include <QSqlDatabase>
+#include <QSqlQuery>
+#include <QSqlError>
+#include <QString>
+#include <QStringList>
+
 using namespace asaal;
 
+Database *mDatabaseInstance = NULL;
+static QSqlDatabase mCurrentDatabase;
+
+static QString mDatabaseUserName;
+static QString mDatabaseUserPassword;
+static QString mDatabaseName;
+static QString mDatabaseHost;
+static int mDatabasePort;
+
 Database::Database( QObject *parent )
-  : QObject( parent ) {
+  : QObject( parent ),
+    mLastErrorMessage(""),
+    mConnectionIsAvailable(false) {
+      
+  mDatabaseUserName = "";
+  mDatabaseUserPassword = "";
+  mDatabaseName = "";
+  mDatabaseHost = "";
+  mDatabasePort = 3306;
+
+  mDatabaseInstance = this;
 }
 
-Database::~Database() {
+Database *Database::databaseInstance() {
+
+  if( !mDatabaseInstance )
+    mDatabaseInstance = new Database();
+  return mDatabaseInstance;
+}
+
+void Database::setDatabaseInformation( const int port, const QString &host, QString &database, const QString &user, const QString &userPassword ) {
+
+  mDatabaseUserName = database;
+  mDatabaseUserPassword = userPassword;
+  mDatabaseName = user;
+  mDatabaseHost = host;
+
+  if( port < 0 )
+    mDatabasePort = 3306;
+  else
+    mDatabasePort = port;
+}
+
+bool Database::createConnection( const DatabaseType type ) {
+
+  switch( type ) {
+    case MySQL:
+
+      mLastErrorMessage.clear();
+
+      mCurrentDatabase = QSqlDatabase::addDatabase("QMYSQL");
+      mCurrentDatabase.setHostName(mDatabaseHost);
+      mCurrentDatabase.setPort(mDatabasePort);
+      mCurrentDatabase.setDatabaseName(mDatabaseName);
+      mCurrentDatabase.setUserName(mDatabaseUserName);
+      mCurrentDatabase.setPassword(mDatabaseUserPassword);
+
+      mConnectionIsAvailable = mCurrentDatabase.open();
+      if( !mConnectionIsAvailable )
+        mLastErrorMessage = mCurrentDatabase.lastError().text();
+
+      initializeDatabase();
+
+      break;
+    case SQLite3:
+
+      mLastErrorMessage.clear();
+      mLastErrorMessage = tr("SQLite 3 connection not supported at this time.");
+
+      mConnectionIsAvailable = false;
+      return mConnectionIsAvailable;
+  }
+
+  return mConnectionIsAvailable;
+}
+
+bool Database::closeConnection() {
+
+  return mConnectionIsAvailable;
+}
+
+bool Database::login( const User *user ) {
+
+  return mConnectionIsAvailable;
+}
+
+bool Database::logout() {
+
+  return mConnectionIsAvailable;
+}
+
+void Database::createUser( const User *user ) {
+}
+
+const QList<User *> Database::users() const {
+
+  return QList<User *>();
+}
+
+void Database::createDocument( const Document *doc ) {
+}
+
+const QList<Document *> Database::documents() const {
+
+  return QList<Document *>();
+}
+
+void Database::createGroup( const Groups *group ) {
+}
+
+const QList<Groups *> Database::groups() const {
+
+  return QList<Groups *>();
+}
+
+void Database::addDocumentToGroup( const QString &documentId, const QString &groupId ) {
+}
+
+void Database::addDocumentToUser( const QString &documentId, const QString &userId ) {
+}
+
+void Database::initializeDatabase() {
 }
