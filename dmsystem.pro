@@ -35,21 +35,21 @@ QT += network sql xml
 # Config settings
 CONFIG(debug, debug|release) {
 
-  TARGET = DMSystemD
-  RCC_DIR = build/DMSystemD/rcc
-  MOC_DIR += build/DMSystemD/moc
-  OBJECTS_DIR += build/DMSystemD/obj
-  UI_DIR += build/DMSystemD/ui
+  TARGET = DMSystem
+  RCC_DIR = build/debug/rcc
+  MOC_DIR += build/debug/moc
+  OBJECTS_DIR += build/debug/obj
+  UI_DIR += build/debug/ui
 
   DEFINES += DMS_DEBUG
 
 } else {
 
   TARGET = DMSystem
-  RCC_DIR = build/DMSystem/rcc
-  MOC_DIR += build/DMSystem/moc
-  OBJECTS_DIR += build/DMSystem/obj
-  UI_DIR += build/DMSystem/ui
+  RCC_DIR = build/release/rcc
+  MOC_DIR += build/release/moc
+  OBJECTS_DIR += build/release/obj
+  UI_DIR += build/release/ui
 
   DEFINES -= DMS_DEBUG
 

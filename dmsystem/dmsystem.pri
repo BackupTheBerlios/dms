@@ -31,6 +31,7 @@ include(preferences/preferences.pri)
 include(rules/rules.pri)
 include(search/search.pri)
 include(users/users.pri)
+include(utilities/utilities.pri)
 include(worksheet/worksheet.pri)
 
 INCLUDEPATH += $$PWD

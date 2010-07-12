@@ -70,7 +70,7 @@ namespace asaal {
 
       static Database *databaseInstance();
 
-      void setDatabaseInformation( const int port, const QString &host, QString &database, const QString &user, const QString &userPassword );
+      void setDatabaseInformation( const int port, const QString &host, const QString &user, const QString &userPassword );
 
       bool createConnection( const DatabaseType type = MySQL );
       bool closeConnection();
@@ -79,13 +79,13 @@ namespace asaal {
       bool logout();
 
       void createUser( const User *user );
-      const QList<User *> users() const;
+      const QList<User *> users();
 
       void createDocument( const Document *doc );
-      const QList<Document *> documents() const;
+      const QList<Document *> documents();
     
       void createGroup( const Groups *group );
-      const QList<Groups *> groups() const;
+      const QList<Groups *> groups();
 
       void addDocumentToGroup( const QString &documentId, const QString &groupId );
       void addDocumentToUser( const QString &documentId, const QString &userId );
@@ -99,6 +99,7 @@ namespace asaal {
       bool mConnectionIsAvailable;
 
       void initializeDatabase();
+      const QString createUniqueId() const;
 
     protected:
       Database( QObject *parent = 0 );
