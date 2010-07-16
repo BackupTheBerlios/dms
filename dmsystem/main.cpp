@@ -22,9 +22,17 @@
  *
  */
 
+#include "base64.h"
+#include "database.h"
 #include "dmsystem.h"
+#include "connectionwizard.h"
 
 #include <QApplication>
+#include <QByteArray>
+#include <QFile>
+#include <QMessageBox>
+#include <QSettings>
+#include <QVariant>
 
 using namespace asaal;
 
@@ -35,6 +43,69 @@ int main( int argc, char **argv ) {
   app.setApplicationVersion("0.9.5");
   app.setOrganizationName("Alexander Saal");
   app.setOrganizationDomain("http://dms.berlios.de/index/");
+
+  QString applicationFolder = QApplication::applicationDirPath();
+  applicationFolder.append("/mysql.dms");
+
+  QFile settingFile(applicationFolder);
+  if( !settingFile.exists() ) {
+
+    ConnectionWizard *wizard = new ConnectionWizard();
+    if( wizard->exec() == QDialog::Accepted ) {
+
+      delete wizard;
+      wizard = 0;
+    } else {
+
+      return -1;
+    }
+  } else {
+
+    QString userName = "";
+    QString userPassword = "";
+    QString userHost = "";
+    int userPort = -1;
+
+    QSettings *mysqlSettings = new QSettings(applicationFolder, QSettings::IniFormat);
+    mysqlSettings->beginGroup("Server");
+    {
+      userHost = mysqlSettings->value("Host").toString();
+      userPort = mysqlSettings->value("Port").toInt();
+    }
+    mysqlSettings->endGroup();
+
+    mysqlSettings->beginGroup("User");
+    {
+      userName = mysqlSettings->value("User").toString();
+      userPassword = mysqlSettings->value("Password").toString();
+      userPassword = QVariant(Base64::decode(userPassword)).toString();
+    }
+    mysqlSettings->endGroup();
+
+    Database::databaseInstance()->setDatabaseInformation(userHost, userName, userPassword, userPort);
+    if( !Database::databaseInstance()->openConnection() ) {
+
+      userName.clear();
+      userPassword.clear();
+      userHost.clear();
+      userPort = -1;
+
+      delete mysqlSettings;
+      mysqlSettings = 0;
+
+      QMessageBox::critical(0L, QApplication::applicationName(), Database::databaseInstance()->lastErrorMessage());
+
+      return -1;
+    }
+
+    userName.clear();
+    userPassword.clear();
+    userHost.clear();
+    userPort = -1;
+
+    delete mysqlSettings;
+    mysqlSettings = 0;
+  }
 
   DMSystem *dmsystem = new DMSystem();
   dmsystem->setArguments(argc, argv);

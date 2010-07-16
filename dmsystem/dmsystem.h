@@ -42,6 +42,9 @@ namespace asaal {
 
       void setArguments( int argc, char **argv );
 
+    protected:
+      void closeEvent( QCloseEvent *event );
+
     private:
       QAction *mActionWorkSheet;
       QAction *mActionUsers;

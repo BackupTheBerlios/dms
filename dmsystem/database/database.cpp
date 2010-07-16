@@ -38,9 +38,9 @@
 using namespace asaal;
 
 static QSqlDatabase mCurrentDatabase;
-static QString mDatabaseUserName = "DMS";
+static QString mDatabaseUserName = QString::null;
 static QString mDatabaseUserPassword = QString::null;
-static QString mDatabaseName = QString::null;
+static QString mDatabaseName = "DMS";
 static QString mDatabaseHost = QString::null;
 static int mDatabasePort = 3306;
 static Database::DatabaseType mDatabaseType = Database::MySQL;
@@ -48,6 +48,7 @@ static Database::DatabaseType mDatabaseType = Database::MySQL;
 Database *mDatabaseInstance = NULL;
 Database::Database( QObject *parent )
   : QObject( parent ),
+    mCurrentUser(0),
     mLastErrorMessage(""),
     mConnectionIsAvailable(false) {
 
@@ -63,9 +64,9 @@ Database *Database::databaseInstance() {
 
 void Database::setDatabaseInformation( const QString &host, const QString &user, const QString &userPassword, const int port, const DatabaseType type ) {
 
-  mDatabaseUserPassword = userPassword;
-  mDatabaseName = user;
   mDatabaseHost = host;
+  mDatabaseUserName = user;
+  mDatabaseUserPassword = userPassword;
   mDatabaseType = type;
 
   if( port < 0 )
@@ -80,6 +81,7 @@ bool Database::openConnection() {
     case MySQL:
 
       mLastErrorMessage.clear();
+      mCurrentDatabase.close();
 
       mCurrentDatabase = QSqlDatabase::addDatabase("QMYSQL");
       mCurrentDatabase.setHostName(mDatabaseHost);

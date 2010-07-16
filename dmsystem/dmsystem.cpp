@@ -22,8 +22,8 @@
  *
  */
 
-#include "dmsystem.h"
 #include "database.h"
+#include "dmsystem.h"
 
 #include <QAction>
 #include <QApplication>
@@ -35,8 +35,6 @@
 
 using namespace asaal;
 
-Database *mDatabase = 0;
-
 DMSystem::DMSystem( QWidget *parent )
   : QMainWindow( parent ),
     mActionWorkSheet(0),
@@ -47,23 +45,27 @@ DMSystem::DMSystem( QWidget *parent )
     mActionLogin(0),
     mActionPreferences(0) {
 
-  setWindowTitle(QApplication::applicationName());
-
-  mDatabase = Database::databaseInstance();
-  mDatabase->setDatabaseInformation("localhost", "root", "", 3306, Database::MySQL);
-  mDatabase->openConnection();
-
-#if defined(Q_WS_MAC)
-  setUnifiedTitleAndToolBarOnMac(true);
-#endif
-
   mMdiArea = new QMdiArea();
   setCentralWidget(mMdiArea);
+
+  setWindowTitle(QApplication::applicationName());
+
+#if defined(Q_OS_MAC)
+  setUnifiedTitleAndToolBarOnMac(true);
+#endif
 
   initializeToolBar();
   initializeMenus();
   initializeStatusBar();
   initializePlugins();
+}
+
+void DMSystem::closeEvent( QCloseEvent *event ) {
+
+  Database::databaseInstance()->logout();
+  Database::databaseInstance()->closeConnection();
+
+  delete Database::databaseInstance();
 }
 
 void DMSystem::setArguments( int argc, char **argv ) {

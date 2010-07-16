@@ -29,6 +29,8 @@
 
 #include <QWizard>
 
+class QAbstractButton;
+
 namespace asaal {
 
   class ConnectionWizard : public QWizard, private Ui::UiConnectionWizard {
@@ -37,7 +39,19 @@ namespace asaal {
 
     public:
       ConnectionWizard( QWidget *parent = 0, Qt::WindowFlags flags = 0 );
+      ~ConnectionWizard();
 
+      void accept();
+      void reject();
+
+    public slots:
+      void slotTestConnection();
+
+    protected:
+      void closeEvent( QCloseEvent *event );
+
+    private:
+      QAbstractButton *mFinishButton;
   };
 }
 

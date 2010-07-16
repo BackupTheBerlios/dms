@@ -84,6 +84,7 @@ namespace asaal {
         SQLite3     // SQLite3 not supported at this time.
       };
 
+      ~Database() {}
       static Database *databaseInstance();
 
       void setDatabaseInformation( const QString &host, const QString &user, const QString &userPassword, const int port = 3306, const DatabaseType type = MySQL );
@@ -122,7 +123,6 @@ namespace asaal {
 
     protected:
       Database( QObject *parent = 0 );
-      ~Database() {}
   };
 }
 
