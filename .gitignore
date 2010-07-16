@@ -14,5 +14,10 @@ build/
 *.cvs
 *.sln
 *.vcproj
+*.vcproj.*
+*.suo
+*.ncb
+*.idb
+*.pdb
 Makefile
 

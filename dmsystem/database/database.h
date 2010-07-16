@@ -86,9 +86,9 @@ namespace asaal {
 
       static Database *databaseInstance();
 
-      void setDatabaseInformation( const int port, const QString &host, const QString &user, const QString &userPassword );
+      void setDatabaseInformation( const QString &host, const QString &user, const QString &userPassword, const int port = 3306, const DatabaseType type = MySQL );
 
-      bool openConnection( const DatabaseType type = MySQL );
+      bool openConnection();
       bool closeConnection();
 
       bool login( const User *user );

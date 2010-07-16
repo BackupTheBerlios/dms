@@ -23,6 +23,7 @@
  */
 
 #include "dmsystem.h"
+#include "database.h"
 
 #include <QAction>
 #include <QApplication>
@@ -33,6 +34,8 @@
 #include <QStatusBar>
 
 using namespace asaal;
+
+Database *mDatabase = 0;
 
 DMSystem::DMSystem( QWidget *parent )
   : QMainWindow( parent ),
@@ -45,6 +48,10 @@ DMSystem::DMSystem( QWidget *parent )
     mActionPreferences(0) {
 
   setWindowTitle(QApplication::applicationName());
+
+  mDatabase = Database::databaseInstance();
+  mDatabase->setDatabaseInformation("localhost", "root", "Ms!//9pSicher!Code", 3306, Database::MySQL);
+  mDatabase->openConnection();
 
 #if defined(Q_WS_MAC)
   setUnifiedTitleAndToolBarOnMac(true);

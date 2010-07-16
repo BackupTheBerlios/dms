@@ -43,6 +43,7 @@ static QString mDatabaseUserPassword = QString::null;
 static QString mDatabaseName = QString::null;
 static QString mDatabaseHost = QString::null;
 static int mDatabasePort = 3306;
+static Database::DatabaseType mDatabaseType = Database::MySQL;
 
 Database *mDatabaseInstance = NULL;
 Database::Database( QObject *parent )
@@ -60,11 +61,12 @@ Database *Database::databaseInstance() {
   return mDatabaseInstance;
 }
 
-void Database::setDatabaseInformation( const int port, const QString &host, const QString &user, const QString &userPassword ) {
+void Database::setDatabaseInformation( const QString &host, const QString &user, const QString &userPassword, const int port, const DatabaseType type ) {
 
   mDatabaseUserPassword = userPassword;
   mDatabaseName = user;
   mDatabaseHost = host;
+  mDatabaseType = type;
 
   if( port < 0 )
     mDatabasePort = 3306;
@@ -72,9 +74,9 @@ void Database::setDatabaseInformation( const int port, const QString &host, cons
     mDatabasePort = port;
 }
 
-bool Database::openConnection( const DatabaseType type ) {
+bool Database::openConnection() {
 
-  switch( type ) {
+  switch( mDatabaseType ) {
     case MySQL:
 
       mLastErrorMessage.clear();
