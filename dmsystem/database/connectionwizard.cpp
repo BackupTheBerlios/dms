@@ -23,11 +23,16 @@
  */
 
 #include "connectionwizard.h"
+#include "database.h"
 
 using namespace asaal;
+
+Database *mDatabase = 0;
 
 ConnectionWizard::ConnectionWizard( QWidget *parent, Qt::WindowFlags flags )
   : QWizard(parent, flags) {
 
   setupUi(this);
+
+  mDatabase = Database::databaseInstance();
 }

@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>661</width>
+    <width>660</width>
     <height>430</height>
    </rect>
   </property>
@@ -39,6 +39,9 @@
    <property name="title">
     <string>Welcome to the DMS Database Connection Wizard</string>
    </property>
+   <attribute name="pageId">
+    <string notr="true">0</string>
+   </attribute>
    <layout class="QVBoxLayout" name="verticalLayout">
     <item>
      <spacer name="verticalSpacerWelcomeTop">
@@ -88,6 +91,9 @@ Click 'Next' to continue or 'Abort' to close this wizard.</string>
    <property name="title">
     <string>Authentication / Connection</string>
    </property>
+   <attribute name="pageId">
+    <string notr="true">1</string>
+   </attribute>
    <layout class="QVBoxLayout" name="verticalLayout_4">
     <item>
      <widget class="QLabel" name="labelAuthenticationInfo">
