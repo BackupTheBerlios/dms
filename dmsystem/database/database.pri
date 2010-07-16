@@ -27,3 +27,7 @@ DEPENDPATH += $$PWD
 
 HEADERS += database.h
 SOURCES += database.cpp
+
+HEADERS += connectionwizard.h
+SOURCES += connectionwizard.cpp
+FORMS += connectionwizard.ui

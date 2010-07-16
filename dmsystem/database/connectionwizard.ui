@@ -1,0 +1,267 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>UiConnectionWizard</class>
+ <widget class="QWizard" name="UiConnectionWizard">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>661</width>
+    <height>430</height>
+   </rect>
+  </property>
+  <property name="minimumSize">
+   <size>
+    <width>661</width>
+    <height>430</height>
+   </size>
+  </property>
+  <property name="maximumSize">
+   <size>
+    <width>660</width>
+    <height>430</height>
+   </size>
+  </property>
+  <property name="windowTitle">
+   <string>DMS - Database Connection Wizard</string>
+  </property>
+  <property name="windowIcon">
+   <iconset resource="../../resource/dmsystem.qrc">
+    <normaloff>:/db</normaloff>:/db</iconset>
+  </property>
+  <property name="modal">
+   <bool>true</bool>
+  </property>
+  <property name="options">
+   <set>QWizard::CancelButtonOnLeft|QWizard::NoDefaultButton</set>
+  </property>
+  <widget class="QWizardPage" name="mWelocmePage">
+   <property name="title">
+    <string>Welcome to the DMS Database Connection Wizard</string>
+   </property>
+   <layout class="QVBoxLayout" name="verticalLayout">
+    <item>
+     <spacer name="verticalSpacerWelcomeTop">
+      <property name="orientation">
+       <enum>Qt::Vertical</enum>
+      </property>
+      <property name="sizeHint" stdset="0">
+       <size>
+        <width>20</width>
+        <height>78</height>
+       </size>
+      </property>
+     </spacer>
+    </item>
+    <item>
+     <widget class="QLabel" name="labelWelcomeInfo">
+      <property name="text">
+       <string>This wizard will guid you threw the database connectivity process.
+
+
+You will be asked for a connection, authentication details and for 
+particulars of the server connection. You may then also choose to
+test that a connection can be established based on the entered
+information.
+
+
+Click 'Next' to continue or 'Abort' to close this wizard.</string>
+      </property>
+     </widget>
+    </item>
+    <item>
+     <spacer name="verticalSpacerWelcomeBottom">
+      <property name="orientation">
+       <enum>Qt::Vertical</enum>
+      </property>
+      <property name="sizeHint" stdset="0">
+       <size>
+        <width>20</width>
+        <height>41</height>
+       </size>
+      </property>
+     </spacer>
+    </item>
+   </layout>
+  </widget>
+  <widget class="QWizardPage" name="mSetupPage">
+   <property name="title">
+    <string>Authentication / Connection</string>
+   </property>
+   <layout class="QVBoxLayout" name="verticalLayout_4">
+    <item>
+     <widget class="QLabel" name="labelAuthenticationInfo">
+      <property name="text">
+       <string>A username and password is usually used to authenticate your
+connection. Enter your username and password below if one is
+required.</string>
+      </property>
+     </widget>
+    </item>
+    <item>
+     <layout class="QHBoxLayout" name="horizontalLayoutAuthentication">
+      <property name="topMargin">
+       <number>5</number>
+      </property>
+      <item>
+       <layout class="QVBoxLayout" name="verticalLayoutUsername">
+        <item>
+         <widget class="QLabel" name="labelUsername">
+          <property name="text">
+           <string>Username</string>
+          </property>
+          <property name="buddy">
+           <cstring>mLineEditUsername</cstring>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QLineEdit" name="mLineEditUsername"/>
+        </item>
+       </layout>
+      </item>
+      <item>
+       <layout class="QVBoxLayout" name="verticalLayoutPassword">
+        <item>
+         <widget class="QLabel" name="labelPassword">
+          <property name="text">
+           <string>Password</string>
+          </property>
+          <property name="buddy">
+           <cstring>mLineEditPassword</cstring>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QLineEdit" name="mLineEditPassword">
+          <property name="echoMode">
+           <enum>QLineEdit::Password</enum>
+          </property>
+         </widget>
+        </item>
+       </layout>
+      </item>
+     </layout>
+    </item>
+    <item>
+     <spacer name="verticalSpacerSetupMiddle">
+      <property name="orientation">
+       <enum>Qt::Vertical</enum>
+      </property>
+      <property name="sizeHint" stdset="0">
+       <size>
+        <width>20</width>
+        <height>15</height>
+       </size>
+      </property>
+     </spacer>
+    </item>
+    <item>
+     <widget class="QLabel" name="labelHostInfo">
+      <property name="text">
+       <string>The host name uniquely identifies the computer on which the 
+database server is installed. The database listening on a specific
+TCP/IP port. Enter the details for your database connection below.</string>
+      </property>
+     </widget>
+    </item>
+    <item>
+     <layout class="QHBoxLayout" name="horizontalLayoutHost">
+      <property name="topMargin">
+       <number>5</number>
+      </property>
+      <item>
+       <layout class="QVBoxLayout" name="verticalLayoutHost">
+        <item>
+         <widget class="QLabel" name="labelHost">
+          <property name="text">
+           <string>Hostname or IP address</string>
+          </property>
+          <property name="buddy">
+           <cstring>mLineEditHost</cstring>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QLineEdit" name="mLineEditHost"/>
+        </item>
+       </layout>
+      </item>
+      <item>
+       <layout class="QVBoxLayout" name="verticalLayoutPort">
+        <item>
+         <widget class="QLabel" name="labelPort">
+          <property name="text">
+           <string>Port</string>
+          </property>
+          <property name="buddy">
+           <cstring>mSpinBoxPort</cstring>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QSpinBox" name="mSpinBoxPort">
+          <property name="alignment">
+           <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+          </property>
+          <property name="minimum">
+           <number>1</number>
+          </property>
+          <property name="maximum">
+           <number>65535</number>
+          </property>
+          <property name="value">
+           <number>3306</number>
+          </property>
+         </widget>
+        </item>
+       </layout>
+      </item>
+     </layout>
+    </item>
+    <item>
+     <layout class="QHBoxLayout" name="horizontalLayoutTestConnection">
+      <item>
+       <spacer name="horizontalSpacerTestConnection">
+        <property name="orientation">
+         <enum>Qt::Horizontal</enum>
+        </property>
+        <property name="sizeHint" stdset="0">
+         <size>
+          <width>40</width>
+          <height>20</height>
+         </size>
+        </property>
+       </spacer>
+      </item>
+      <item>
+       <widget class="QPushButton" name="mButtonTestConnection">
+        <property name="text">
+         <string>Test connection</string>
+        </property>
+        <property name="icon">
+         <iconset resource="../../resource/dmsystem.qrc">
+          <normaloff>:/reload</normaloff>:/reload</iconset>
+        </property>
+        <property name="autoDefault">
+         <bool>false</bool>
+        </property>
+       </widget>
+      </item>
+     </layout>
+    </item>
+   </layout>
+  </widget>
+ </widget>
+ <tabstops>
+  <tabstop>mLineEditUsername</tabstop>
+  <tabstop>mLineEditPassword</tabstop>
+  <tabstop>mLineEditHost</tabstop>
+  <tabstop>mSpinBoxPort</tabstop>
+  <tabstop>mButtonTestConnection</tabstop>
+ </tabstops>
+ <resources>
+  <include location="../../resource/dmsystem.qrc"/>
+ </resources>
+ <connections/>
+</ui>
