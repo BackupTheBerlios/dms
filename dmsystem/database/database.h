@@ -34,12 +34,28 @@ class QStringList;
 
 namespace asaal {
 
+  struct UserData {
+
+    QString mId;
+    QString mUserId;
+    QString mFirstName;
+    QString mLastName;
+    QString mStreet;
+    QString mStreetNumber;
+    QString mCity;
+    QString mPostalCode;
+    QString mCountry;
+    QDateTime mCreated;
+    QDateTime mUpdated;
+  };
+
   struct User {
     QString mId;
     QString mName;
     QString mPassword;
+    UserData *userData;
   };
-  
+
   struct Groups {
     QString mId;
     QString mName;
@@ -56,7 +72,7 @@ namespace asaal {
     QList<User *> mUsers;
     QList<Groups *> mGroups;
   };
-  
+
   class Database : public QObject {
 
       Q_OBJECT
@@ -72,7 +88,7 @@ namespace asaal {
 
       void setDatabaseInformation( const int port, const QString &host, const QString &user, const QString &userPassword );
 
-      bool createConnection( const DatabaseType type = MySQL );
+      bool openConnection( const DatabaseType type = MySQL );
       bool closeConnection();
 
       bool login( const User *user );
@@ -83,15 +99,19 @@ namespace asaal {
 
       void createDocument( const Document *doc );
       const QList<Document *> documents();
-    
+      const QList<Document *> documents( const User *user );
+      const QList<Document *> documents( const Groups *group );
+
       void createGroup( const Groups *group );
       const QList<Groups *> groups();
 
       void addDocumentToGroup( const QString &documentId, const QString &groupId );
       void addDocumentToUser( const QString &documentId, const QString &userId );
-    
+
       inline const User *currentUser() const { return mCurrentUser; }
       inline const QString lastErrorMessage() const { return mLastErrorMessage; }
+
+      const QString createUniqueId() const;
 
     private:
       User *mCurrentUser;
@@ -99,7 +119,6 @@ namespace asaal {
       bool mConnectionIsAvailable;
 
       void initializeDatabase();
-      const QString createUniqueId() const;
 
     protected:
       Database( QObject *parent = 0 );

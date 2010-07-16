@@ -72,7 +72,7 @@ void Database::setDatabaseInformation( const int port, const QString &host, cons
     mDatabasePort = port;
 }
 
-bool Database::createConnection( const DatabaseType type ) {
+bool Database::openConnection( const DatabaseType type ) {
 
   switch( type ) {
     case MySQL:
@@ -88,8 +88,8 @@ bool Database::createConnection( const DatabaseType type ) {
       mConnectionIsAvailable = mCurrentDatabase.open();
       if( !mConnectionIsAvailable )
         mLastErrorMessage = mCurrentDatabase.lastError().text();
-
-      initializeDatabase();
+      else
+        initializeDatabase();
 
       break;
     case SQLite3:
@@ -98,7 +98,6 @@ bool Database::createConnection( const DatabaseType type ) {
       mLastErrorMessage = tr("SQLite 3 connection not supported at this time.");
 
       mConnectionIsAvailable = false;
-      return mConnectionIsAvailable;
   }
 
   return mConnectionIsAvailable;
@@ -173,11 +172,11 @@ bool Database::logout() {
     logoutQuery.exec(QString("UPDATE USERS SET LOGGEDIN = 0 WHERE UID = '%1'").arg(mCurrentUser->mId));
     {
       if( logoutQuery.isActive() ) {
-        
+
         if( mCurrentUser )
           delete mCurrentUser;
         mCurrentUser = NULL;
-        
+
         loggedOut = true;
       }
       else {
@@ -241,7 +240,6 @@ const QList<User *> Database::users() {
         user = new User;
         user->mId = userQuery.value(0).toString();
         user->mName = userQuery.value(1).toString();
-        user->mPassword = Base64::encode(QVariant(userQuery.value(2).toString()).toByteArray());
         userList.append(user);
       }
       userQuery.clear();
@@ -254,14 +252,69 @@ const QList<User *> Database::users() {
 }
 
 void Database::createDocument( const Document *doc ) {
+
+  if( doc && mConnectionIsAvailable ) {
+
+    QSqlQuery documentQuery(mCurrentDatabase);
+    documentQuery.exec("");
+    if( documentQuery.isActive() ) {
+
+      while( documentQuery.next() ) {
+
+      }
+    }
+  }
 }
 
 const QList<Document *> Database::documents() {
 
-  return QList<Document *>();
+  Document *document = 0;
+  User *user = 0;
+  UserData *userData = 0;
+  Groups *group = 0;
+
+  QList<Document *> documentList;
+
+  if( mConnectionIsAvailable ) {
+
+    QSqlQuery documentQuery(mCurrentDatabase);
+    documentQuery.exec("SELECT DID, UID, GID, DOCNAME, DOCPATH, UPDATED, CHECKEDOUT FROM DOCUMENTS ORDER BY DOCNAME");
+    if( documentQuery.isActive() ) {
+
+      while( documentQuery.next() ) {
+
+      }
+    }
+  }
+
+  return documentList;
+}
+
+const QList<Document *> Database::documents( const User *user ) {
+
+  Document *document = 0;
+  QList<Document *> documentList;
+  if( user && mConnectionIsAvailable ) {
+  }
+
+  return documentList;
+}
+
+const QList<Document *> Database::documents( const Groups *group ) {
+
+  QList<Document *> documentList;
+  if( group && mConnectionIsAvailable ) {
+  }
+
+  return documentList;
 }
 
 void Database::createGroup( const Groups *group ) {
+
+  if( group && mConnectionIsAvailable ) {
+
+    QSqlQuery groupQuery(mCurrentDatabase);
+  }
 }
 
 const QList<Groups *> Database::groups() {
@@ -270,12 +323,26 @@ const QList<Groups *> Database::groups() {
 }
 
 void Database::addDocumentToGroup( const QString &documentId, const QString &groupId ) {
+
+  if( documentId.isNull() || documentId.isEmpty() )
+    return;
+
+  if( groupId.isNull() || groupId.isEmpty() )
+    return;
 }
 
 void Database::addDocumentToUser( const QString &documentId, const QString &userId ) {
+
+  if( documentId.isNull() || documentId.isEmpty() )
+    return;
+
+  if( userId.isNull() || userId.isEmpty() )
+    return;
 }
 
 void Database::initializeDatabase() {
+
+  mCurrentDatabase.setDatabaseName(mDatabaseName);
 }
 
 const QString Database::createUniqueId() const {
