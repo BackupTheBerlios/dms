@@ -50,7 +50,7 @@ DMSystem::DMSystem( QWidget *parent )
   setWindowTitle(QApplication::applicationName());
 
   mDatabase = Database::databaseInstance();
-  mDatabase->setDatabaseInformation("localhost", "root", "Ms!//9pSicher!Code", 3306, Database::MySQL);
+  mDatabase->setDatabaseInformation("localhost", "root", "", 3306, Database::MySQL);
   mDatabase->openConnection();
 
 #if defined(Q_WS_MAC)
