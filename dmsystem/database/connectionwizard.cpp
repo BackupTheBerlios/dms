@@ -22,6 +22,7 @@
  *
  */
 
+#include "dmsystemglobal.h"
 #include "connectionwizard.h"
 #include "base64.h"
 #include "database.h"
@@ -29,6 +30,7 @@
 #include <QAbstractButton>
 #include <QApplication>
 #include <QCloseEvent>
+#include <QDir>
 #include <QByteArray>
 #include <QDialog>
 #include <QMessageBox>
@@ -37,20 +39,21 @@
 
 using namespace asaal;
 
+static bool mConnectionEstablished = false;
+
 ConnectionWizard::ConnectionWizard( QWidget *parent, Qt::WindowFlags flags )
   : QWizard(parent, flags) {
 
   setupUi(this);
 
   connect(mButtonTestConnection, SIGNAL(clicked()), this, SLOT(slotTestConnection()));
+  connect(this, SIGNAL(currentIdChanged(int)), this, SLOT(slotCurrentIdChanged(int)));
 
-  mFinishButton = button(QWizard::FinishButton);
-  mFinishButton->setEnabled(false);
+  setFiniheButtonEnabled(false);
+  mSetupPage->setFinalPage(true);
 }
 
 ConnectionWizard::~ConnectionWizard() {
-
-  delete mFinishButton;
 }
 
 void ConnectionWizard::closeEvent( QCloseEvent *event ) {
@@ -60,10 +63,11 @@ void ConnectionWizard::closeEvent( QCloseEvent *event ) {
 
 void ConnectionWizard::accept() {
 
-  QString applicationFolder = QApplication::applicationDirPath();
-  applicationFolder.append("/mysql.dms");
+  QString homeFolder = QDir::homePath();
+  homeFolder.append(DMSConfigDirectory);
+  homeFolder.append(QString("/%1").arg(DMSDatabaseConfigFile));
 
-  QSettings *mysqlSettings = new QSettings(applicationFolder, QSettings::IniFormat, this);
+  QSettings *mysqlSettings = new QSettings(homeFolder, QSettings::IniFormat, this);
   QString userPassword = Base64::encode(QVariant(mLineEditPassword->text()).toByteArray());
 
   mysqlSettings->beginGroup("Server");
@@ -77,11 +81,11 @@ void ConnectionWizard::accept() {
   mysqlSettings->endGroup();
   mysqlSettings->sync();
 
+  userPassword.clear();
+  homeFolder.clear();
+
   delete mysqlSettings;
   mysqlSettings = 0;
-
-  userPassword.clear();
-  applicationFolder.clear();
 
   QDialog::accept();
 }
@@ -91,7 +95,22 @@ void ConnectionWizard::reject() {
   QDialog::reject();
 }
 
+void	ConnectionWizard::slotCurrentIdChanged( int id ) {
+
+  Q_UNUSED(id)
+
+  if( !mConnectionEstablished )
+    setFiniheButtonEnabled(false);
+}
+
+void ConnectionWizard::setFiniheButtonEnabled( bool enabled ) {
+
+  button(QWizard::FinishButton)->setEnabled(enabled);
+}
+
 void ConnectionWizard::slotTestConnection() {
+
+  mButtonTestConnection->setEnabled(false);
 
   QString userName = mLineEditUsername->text();
   QString userPassword = mLineEditPassword->text();
@@ -100,6 +119,7 @@ void ConnectionWizard::slotTestConnection() {
 
   if( userName.isEmpty() || userName.isNull() ) {
 
+    mButtonTestConnection->setEnabled(true);
     QMessageBox::critical(this, QApplication::applicationName(), tr("Enter a valid user name."));
     return;
   }
@@ -108,13 +128,20 @@ void ConnectionWizard::slotTestConnection() {
     userHost = "localhost";
 
   Database::databaseInstance()->setDatabaseInformation(userHost, userName, userPassword, userPort);
-  if( Database::databaseInstance()->openConnection() ) {
+  mConnectionEstablished = Database::databaseInstance()->openConnection();
+  if( mConnectionEstablished ) {
 
-    mFinishButton->setEnabled(true);
+    setFiniheButtonEnabled(true);
+    mButtonTestConnection->setEnabled(false);
+    mLabelConnectionInfo->setText("<html><body><font color=\"green\">" + tr("Connection established ...") + "</font></body></html>");
+    mLabelConnectionInfo->update();
   }
   else {
 
-    mFinishButton->setEnabled(false);
+    setFiniheButtonEnabled(false);
+    mLabelConnectionInfo->setText("");
+    mLabelConnectionInfo->update();
+    mButtonTestConnection->setEnabled(true);
     QMessageBox::critical(this, QApplication::applicationName(), Database::databaseInstance()->lastErrorMessage());
   }
 

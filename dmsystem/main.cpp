@@ -25,10 +25,12 @@
 #include "base64.h"
 #include "database.h"
 #include "dmsystem.h"
+#include "dmsystemglobal.h"
 #include "connectionwizard.h"
 
 #include <QApplication>
 #include <QByteArray>
+#include <QDir>
 #include <QFile>
 #include <QMessageBox>
 #include <QSettings>
@@ -39,15 +41,24 @@ using namespace asaal;
 int main( int argc, char **argv ) {
 
   QApplication app(argc, argv);
-  app.setApplicationName("DMS - Document Management System");
-  app.setApplicationVersion("0.9.5");
-  app.setOrganizationName("Alexander Saal");
-  app.setOrganizationDomain("http://dms.berlios.de/index/");
+  app.setApplicationName(DMSApplicationName);
+  app.setApplicationVersion(DMSSoftVersion);
+  app.setOrganizationName(DMSSoftOrganization);
+  app.setOrganizationDomain(DMSSoftOrganizationDomain);
 
-  QString applicationFolder = QApplication::applicationDirPath();
-  applicationFolder.append("/mysql.dms");
+  QString homeFolder = QDir::homePath();
+  homeFolder.append(DMSConfigDirectory);
+  QDir settingsDir(homeFolder);
+  if( !settingsDir.exists() )
+    settingsDir.mkpath(homeFolder);
 
-  QFile settingFile(applicationFolder);
+  homeFolder.append(QString("/%1").arg(DMSDatabaseConfigFile));
+  QFile settingFile(homeFolder);
+
+#if defined(DMS_DEBUG)
+  settingFile.remove();
+#endif
+
   if( !settingFile.exists() ) {
 
     ConnectionWizard *wizard = new ConnectionWizard();
@@ -57,7 +68,7 @@ int main( int argc, char **argv ) {
       wizard = 0;
     } else {
 
-      return -1;
+      return 0;
     }
   } else {
 
@@ -66,7 +77,7 @@ int main( int argc, char **argv ) {
     QString userHost = "";
     int userPort = -1;
 
-    QSettings *mysqlSettings = new QSettings(applicationFolder, QSettings::IniFormat);
+    QSettings *mysqlSettings = new QSettings(homeFolder, QSettings::IniFormat);
     mysqlSettings->beginGroup("Server");
     {
       userHost = mysqlSettings->value("Host").toString();
@@ -81,6 +92,7 @@ int main( int argc, char **argv ) {
       userPassword = QVariant(Base64::decode(userPassword)).toString();
     }
     mysqlSettings->endGroup();
+    homeFolder.clear();
 
     Database::databaseInstance()->setDatabaseInformation(userHost, userName, userPassword, userPort);
     if( !Database::databaseInstance()->openConnection() ) {
@@ -95,7 +107,7 @@ int main( int argc, char **argv ) {
 
       QMessageBox::critical(0L, QApplication::applicationName(), Database::databaseInstance()->lastErrorMessage());
 
-      return -1;
+      return 0;
     }
 
     userName.clear();

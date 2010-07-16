@@ -62,6 +62,8 @@ DMSystem::DMSystem( QWidget *parent )
 
 void DMSystem::closeEvent( QCloseEvent *event ) {
 
+  Q_UNUSED(event)
+
   Database::databaseInstance()->logout();
   Database::databaseInstance()->closeConnection();
 

@@ -37,6 +37,7 @@ include(worksheet/worksheet.pri)
 INCLUDEPATH += $$PWD
 DEPENDPATH += $$PWD
 
+HEADERS += dmsystemglobal.h
 HEADERS += dmsystem.h
 SOURCES += dmsystem.cpp
 SOURCES += main.cpp

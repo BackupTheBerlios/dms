@@ -36,7 +36,7 @@
    <enum>QWizard::MacStyle</enum>
   </property>
   <property name="options">
-   <set>QWizard::CancelButtonOnLeft|QWizard::NoDefaultButton</set>
+   <set>QWizard::CancelButtonOnLeft</set>
   </property>
   <widget class="QWizardPage" name="mWelocmePage">
    <property name="title">
@@ -233,6 +233,13 @@ TCP/IP port. Enter the details for your database connection below.</string>
     </item>
     <item>
      <layout class="QHBoxLayout" name="horizontalLayoutTestConnection">
+      <item>
+       <widget class="QLabel" name="mLabelConnectionInfo">
+        <property name="text">
+         <string/>
+        </property>
+       </widget>
+      </item>
       <item>
        <spacer name="horizontalSpacerTestConnection">
         <property name="orientation">
