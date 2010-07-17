@@ -22,38 +22,34 @@
  *
  */
 
-#ifndef CONNECTIONWIZARD_H
-#define CONNECTIONWIZARD_H
+#ifndef DATABASEUSERDETAILS_H
+#define DATABASEUSERDETAILS_H
 
-#include "ui_connectionwizard.h"
+#include "database.h"
 
-#include <QWizard>
+#include "ui_databaseuserdetails.h"
+
+#include <QDialog>
 
 namespace asaal {
 
-  class ConnectionWizard : public QWizard, private Ui::UiConnectionWizard {
+  class DatabaseUserDetails : public QDialog, private Ui::UiDatabaseUserDetails {
 
       Q_OBJECT
 
     public:
-      ConnectionWizard( QWidget *parent = 0, Qt::WindowFlags flags = 0 );
-      ~ConnectionWizard();
+      DatabaseUserDetails( QWidget *parent = 0 );
+      ~DatabaseUserDetails();
 
-      void accept();
-      void reject();
-
-    private:
-      void setFiniheButtonEnabled( bool enabled = true );
-      void setNextButtonEnabled( bool enabled = true );
-
-    private slots:
-      void	slotCurrentIdChanged( int id );
-      void slotTestConnection();
-      void slotAddUser();
+      const User *databaseUserDetails();
 
     protected:
       void closeEvent( QCloseEvent *event );
+
+    private slots:
+      void slotOk();
+      void slotCancel();
   };
 }
 
-#endif // CONNECTIONWIZARD_H
+#endif // DATABASEUSERDETAILS_H

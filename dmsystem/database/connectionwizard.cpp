@@ -46,11 +46,14 @@ ConnectionWizard::ConnectionWizard( QWidget *parent, Qt::WindowFlags flags )
 
   setupUi(this);
 
-  connect(mButtonTestConnection, SIGNAL(clicked()), this, SLOT(slotTestConnection()));
+  setPixmap(QWizard::BackgroundPixmap, QPixmap(":/wizard"));
+
   connect(this, SIGNAL(currentIdChanged(int)), this, SLOT(slotCurrentIdChanged(int)));
+  connect(mButtonTestConnection, SIGNAL(clicked()), this, SLOT(slotTestConnection()));
+  connect(mButtonAddUser, SIGNAL(clicked()), this, SLOT(slotAddUser()));
 
   setFiniheButtonEnabled(false);
-  setPixmap(QWizard::BackgroundPixmap, QPixmap(":/wizard"));
+  setNextButtonEnabled(false);
 }
 
 ConnectionWizard::~ConnectionWizard() {
@@ -58,6 +61,7 @@ ConnectionWizard::~ConnectionWizard() {
 
 void ConnectionWizard::closeEvent( QCloseEvent *event ) {
 
+  Q_UNUSED(event)
   QDialog::reject();
 }
 
@@ -105,17 +109,27 @@ void ConnectionWizard::reject() {
   QDialog::reject();
 }
 
+void ConnectionWizard::setFiniheButtonEnabled( bool enabled ) {
+
+  button(QWizard::FinishButton)->setEnabled(enabled);
+}
+
+void ConnectionWizard::setNextButtonEnabled( bool enabled ) {
+
+  button(QWizard::NextButton)->setEnabled(enabled);
+}
+
 void	ConnectionWizard::slotCurrentIdChanged( int id ) {
 
   Q_UNUSED(id)
 
   if( !mConnectionEstablished )
     setFiniheButtonEnabled(false);
-}
 
-void ConnectionWizard::setFiniheButtonEnabled( bool enabled ) {
-
-  button(QWizard::FinishButton)->setEnabled(enabled);
+  if( id == 1 )
+    setNextButtonEnabled(false);
+  else
+    setNextButtonEnabled(true);
 }
 
 void ConnectionWizard::slotTestConnection() {
@@ -145,14 +159,14 @@ void ConnectionWizard::slotTestConnection() {
   mConnectionEstablished = Database::databaseInstance()->openConnection();
   if( mConnectionEstablished ) {
 
-    setFiniheButtonEnabled(true);
+    setNextButtonEnabled(true);
     mButtonTestConnection->setEnabled(false);
     mLabelConnectionInfo->setText("<html><body><font color=\"green\">" + tr("Connection established ...") + "</font></body></html>");
     mLabelConnectionInfo->update();
   }
   else {
 
-    setFiniheButtonEnabled(false);
+    setNextButtonEnabled(false);
     mLabelConnectionInfo->setText("");
     mLabelConnectionInfo->update();
     mButtonTestConnection->setEnabled(true);
@@ -163,4 +177,7 @@ void ConnectionWizard::slotTestConnection() {
   userPassword.clear();
   userHost.clear();
   userPort = -1;
+}
+
+void ConnectionWizard::slotAddUser() {
 }

@@ -65,10 +65,10 @@
        <string>This wizard will guid you threw the database connectivity process.
 
 
-You will be asked for a connection, authentication details and for 
-particulars of the server connection. You may then also choose to
-test that a connection can be established based on the entered
-information.
+You will be asked for a connection, authentication and user details
+and for particulars of the server connection. You may then also
+choose to test that a connection can be established based on the
+entered information.
 
 
 Click 'Next' to continue or 'Abort' to close this wizard.</string>
@@ -115,9 +115,9 @@ required.</string>
       <item>
        <layout class="QVBoxLayout" name="verticalLayoutUsername">
         <item>
-         <widget class="QLabel" name="labelUsername">
+         <widget class="QLabel" name="labelDatabseUsername">
           <property name="text">
-           <string>Username</string>
+           <string>Database user name</string>
           </property>
           <property name="buddy">
            <cstring>mLineEditUsername</cstring>
@@ -132,9 +132,9 @@ required.</string>
       <item>
        <layout class="QVBoxLayout" name="verticalLayoutPassword">
         <item>
-         <widget class="QLabel" name="labelPassword">
+         <widget class="QLabel" name="labelDatabasePassword">
           <property name="text">
-           <string>Password</string>
+           <string>Database password</string>
           </property>
           <property name="buddy">
            <cstring>mLineEditPassword</cstring>
@@ -281,6 +281,243 @@ TCP/IP port. Enter the details for your database connection below.</string>
        </size>
       </property>
      </spacer>
+    </item>
+   </layout>
+  </widget>
+  <widget class="QWizardPage" name="mUserPage">
+   <property name="title">
+    <string>General information about new user</string>
+   </property>
+   <attribute name="pageId">
+    <string notr="true">2</string>
+   </attribute>
+   <layout class="QVBoxLayout" name="verticalLayout_7">
+    <item>
+     <widget class="QLabel" name="labelAuthenticationInfo_2">
+      <property name="text">
+       <string>A username and password is usually used to authenticate your
+documents. Enter your username and password below. With (*)
+are required fields.</string>
+      </property>
+     </widget>
+    </item>
+    <item>
+     <layout class="QHBoxLayout" name="horizontalLayout">
+      <property name="topMargin">
+       <number>5</number>
+      </property>
+      <property name="bottomMargin">
+       <number>10</number>
+      </property>
+      <item>
+       <layout class="QVBoxLayout" name="verticalLayout_5">
+        <item>
+         <widget class="QLabel" name="label">
+          <property name="text">
+           <string>Username*</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QLineEdit" name="lineEdit"/>
+        </item>
+       </layout>
+      </item>
+      <item>
+       <layout class="QVBoxLayout" name="verticalLayout_3">
+        <item>
+         <widget class="QLabel" name="label_2">
+          <property name="text">
+           <string>Password*</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QLineEdit" name="lineEdit_2">
+          <property name="echoMode">
+           <enum>QLineEdit::Password</enum>
+          </property>
+         </widget>
+        </item>
+       </layout>
+      </item>
+      <item>
+       <layout class="QVBoxLayout" name="verticalLayout_2">
+        <item>
+         <widget class="QLabel" name="label_3">
+          <property name="text">
+           <string>Confirm password*</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QLineEdit" name="lineEdit_3">
+          <property name="echoMode">
+           <enum>QLineEdit::Password</enum>
+          </property>
+         </widget>
+        </item>
+       </layout>
+      </item>
+     </layout>
+    </item>
+    <item>
+     <widget class="QLabel" name="labelAuthenticationInfo_3">
+      <property name="text">
+       <string>User details is usually used to authenticate the user documents
+and user. Enter your user details below.</string>
+      </property>
+     </widget>
+    </item>
+    <item>
+     <layout class="QHBoxLayout" name="horizontalLayout_3">
+      <item>
+       <widget class="QTreeWidget" name="treeWidget">
+        <property name="focusPolicy">
+         <enum>Qt::NoFocus</enum>
+        </property>
+        <property name="showDropIndicator" stdset="0">
+         <bool>false</bool>
+        </property>
+        <property name="rootIsDecorated">
+         <bool>false</bool>
+        </property>
+        <attribute name="headerDefaultSectionSize">
+         <number>80</number>
+        </attribute>
+        <attribute name="headerMinimumSectionSize">
+         <number>80</number>
+        </attribute>
+        <attribute name="headerDefaultSectionSize">
+         <number>80</number>
+        </attribute>
+        <attribute name="headerMinimumSectionSize">
+         <number>80</number>
+        </attribute>
+        <column>
+         <property name="text">
+          <string>Username</string>
+         </property>
+        </column>
+        <column>
+         <property name="text">
+          <string>Password</string>
+         </property>
+        </column>
+        <column>
+         <property name="text">
+          <string>Firstname</string>
+         </property>
+        </column>
+        <column>
+         <property name="text">
+          <string>Lastname</string>
+         </property>
+        </column>
+        <column>
+         <property name="text">
+          <string>Street</string>
+         </property>
+        </column>
+        <column>
+         <property name="text">
+          <string>Street Nr.</string>
+         </property>
+        </column>
+        <column>
+         <property name="text">
+          <string>City</string>
+         </property>
+        </column>
+        <column>
+         <property name="text">
+          <string>Postalcode</string>
+         </property>
+        </column>
+        <column>
+         <property name="text">
+          <string>Country</string>
+         </property>
+        </column>
+        <column>
+         <property name="text">
+          <string>e-Mail</string>
+         </property>
+        </column>
+       </widget>
+      </item>
+      <item>
+       <layout class="QVBoxLayout" name="verticalLayout_6">
+        <item>
+         <widget class="QToolButton" name="toolButton">
+          <property name="icon">
+           <iconset resource="../../resource/dmsystem.qrc">
+            <normaloff>:/user_add</normaloff>:/user_add</iconset>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QToolButton" name="toolButton_2">
+          <property name="text">
+           <string>...</string>
+          </property>
+          <property name="icon">
+           <iconset resource="../../resource/dmsystem.qrc">
+            <normaloff>:/user_remove</normaloff>:/user_remove</iconset>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <spacer name="verticalSpacer_3">
+          <property name="orientation">
+           <enum>Qt::Vertical</enum>
+          </property>
+          <property name="sizeHint" stdset="0">
+           <size>
+            <width>20</width>
+            <height>40</height>
+           </size>
+          </property>
+         </spacer>
+        </item>
+       </layout>
+      </item>
+     </layout>
+    </item>
+    <item>
+     <layout class="QHBoxLayout" name="horizontalLayout_2">
+      <item>
+       <widget class="QLabel" name="labelUserInfo">
+        <property name="text">
+         <string/>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <spacer name="horizontalSpacer">
+        <property name="orientation">
+         <enum>Qt::Horizontal</enum>
+        </property>
+        <property name="sizeHint" stdset="0">
+         <size>
+          <width>40</width>
+          <height>20</height>
+         </size>
+        </property>
+       </spacer>
+      </item>
+      <item>
+       <widget class="QPushButton" name="mButtonAddUser">
+        <property name="text">
+         <string>Add user(s)</string>
+        </property>
+        <property name="icon">
+         <iconset resource="../../resource/dmsystem.qrc">
+          <normaloff>:/ok</normaloff>:/ok</iconset>
+        </property>
+       </widget>
+      </item>
+     </layout>
     </item>
    </layout>
   </widget>

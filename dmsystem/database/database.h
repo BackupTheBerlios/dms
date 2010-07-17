@@ -45,6 +45,7 @@ namespace asaal {
     QString mCity;
     QString mPostalCode;
     QString mCountry;
+    QString mEMail;
     QDateTime mCreated;
     QDateTime mUpdated;
   };
