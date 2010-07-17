@@ -81,6 +81,7 @@ namespace asaal {
       enum DatabaseType {
 
         MySQL = 0,  // MySQL 5.1 or higher.
+        MSSQL,      // Microsoft SQL Server 2005 or higher
         SQLite3     // SQLite3 not supported at this time.
       };
 
@@ -119,7 +120,7 @@ namespace asaal {
       QString mLastErrorMessage;
       bool mConnectionIsAvailable;
 
-      void initializeDatabase();
+      bool initializeDatabase();
 
     protected:
       Database( QObject *parent = 0 );

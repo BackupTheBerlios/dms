@@ -30,13 +30,22 @@
 #include <QRect>
 #include <QWidget>
 
+/* Application defines */
 #define DMSApplicationName "DMS - Document Management System"
 #define DMSSoftVersion "0.9.5"
 #define DMSSoftOrganization "Alexander Saal"
 #define DMSSoftOrganizationDomain "http://dms.berlios.de/index/"
 
+/* Configuration file defines*/
 #define DMSDatabaseConfigFile "database.conf"
+#define DMSServerSection "Server"
+#define DMSServerHostKey "Host"
+#define DMSServerPortKey "Port"
+#define DMSServerUserSection "ServerUser"
+#define DMSServerUserKey "User"
+#define DMSServerPasswordKey "Password"
 
+/* Configuration folder defines */
 #if defined(Q_OS_WIN) || defined(Q_OS_WIN32)
   #undef DMSConfigDirectory
   #define DMSConfigDirectory QApplication::applicationDirPath()
@@ -48,7 +57,7 @@
   #define DMSConfigDirectory "/.dms"
 #endif
 
-namespace icp {
+namespace asaal {
 
   static inline void centerWidget( QWidget *widget, QWidget *subWidget, bool isSubWidget) {
 
@@ -57,21 +66,21 @@ namespace icp {
 
     if( !isSubWidget ) {
 
-      QDesktopWidget *desktop = qApp -> desktop();
-      const QRect rect = desktop -> availableGeometry( desktop -> primaryScreen() );
-      int left = ( rect.width() - widget -> width() ) / 2;
-      int top = ( rect.height() - widget -> height() ) / 2;
-      widget -> setGeometry( left, top, widget -> width(), widget -> height() );
+      QDesktopWidget *desktop = qApp->desktop();
+      const QRect rect = desktop -> availableGeometry( desktop->primaryScreen() );
+      int left = ( rect.width() - widget->width() ) / 2;
+      int top = ( rect.height() - widget->height() ) / 2;
+      widget->setGeometry( left, top, widget->width(), widget->height() );
     }
     else {
 
       if( !subWidget )
         return;
 
-      const QRect rect = widget -> geometry();
-      int left = ( rect.width() - subWidget -> width() ) / 2;
-      int top = ( rect.height() - subWidget -> height() ) / 2;
-      subWidget -> setGeometry( left, top, subWidget -> width(), subWidget -> height() );
+      const QRect rect = widget->geometry();
+      int left = ( rect.width() - subWidget->width() ) / 2;
+      int top = ( rect.height() - subWidget->height() ) / 2;
+      subWidget->setGeometry( left, top, subWidget->width(), subWidget->height() );
     }
   }
 }

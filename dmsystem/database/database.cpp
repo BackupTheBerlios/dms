@@ -26,12 +26,14 @@
 #include "database.h"
 
 #include <QByteArray>
+#include <QFile>
 #include <QList>
 #include <QSqlDatabase>
 #include <QSqlQuery>
 #include <QSqlError>
 #include <QString>
 #include <QStringList>
+#include <QTextStream>
 #include <QUuid>
 #include <QVariant>
 
@@ -93,7 +95,7 @@ bool Database::openConnection() {
       if( !mConnectionIsAvailable )
         mLastErrorMessage = mCurrentDatabase.lastError().text();
       else
-        initializeDatabase();
+        mConnectionIsAvailable &= initializeDatabase();
 
       break;
     case SQLite3:
@@ -344,9 +346,35 @@ void Database::addDocumentToUser( const QString &documentId, const QString &user
     return;
 }
 
-void Database::initializeDatabase() {
+bool Database::initializeDatabase() {
 
-  mCurrentDatabase.setDatabaseName(mDatabaseName);
+  bool initializeFinished = false;
+
+  QFile dbSqlFile(":/mysql_script");
+  if( dbSqlFile.open(QIODevice::ReadOnly | QIODevice::Text) ) {
+
+    QTextStream inStream(&dbSqlFile);
+    QSqlQuery dbQuery(mCurrentDatabase);
+    while( !inStream.atEnd() ) {
+
+      QString sqlLine = inStream.readLine();
+      if( !sqlLine.isEmpty() || !sqlLine.isNull() ) {
+
+        initializeFinished = dbQuery.exec(sqlLine);
+        dbQuery.clear();
+      }
+    }
+
+    dbQuery.exec("INSERT INTO `GROUPS` ( `GID`, `GROUPNAME`, `GROUPDESCRIPTION`, `CREATED`, `UPDATED` ) VALUES ( 'b6d80cef14084a5b95643ea010484855', 'Default', 'Default group for all documents.', CURRENT_DATE, CURRENT_DATE );");
+    dbQuery.clear();
+
+    if( initializeFinished )
+      mCurrentDatabase.setDatabaseName(mDatabaseName);
+
+    dbSqlFile.close();
+  }
+
+  return initializeFinished;
 }
 
 const QString Database::createUniqueId() const {

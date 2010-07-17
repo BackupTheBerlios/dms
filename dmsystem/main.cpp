@@ -67,6 +67,8 @@ int main( int argc, char **argv ) {
   if( !settingFile.exists() ) {
 
     ConnectionWizard *wizard = new ConnectionWizard();
+    centerWidget(wizard, NULL, false);
+
     if( wizard->exec() == QDialog::Accepted ) {
 
       delete wizard;
@@ -77,35 +79,36 @@ int main( int argc, char **argv ) {
     }
   } else {
 
-    QString userName = "";
-    QString userPassword = "";
-    QString userHost = "";
+    QString userName = QString::null;
+    QString userPassword = QString::null;
+    QString userHost = QString::null;
     int userPort = -1;
 
     QSettings *mysqlSettings = new QSettings(homeFolder, QSettings::IniFormat);
-    mysqlSettings->beginGroup("Server");
+    mysqlSettings->beginGroup(DMSServerSection);
     {
-      userHost = mysqlSettings->value("Host").toString();
-      userPort = mysqlSettings->value("Port").toInt();
+      userHost = mysqlSettings->value(DMSServerHostKey).toString();
+      userPort = mysqlSettings->value(DMSServerPortKey).toInt();
     }
     mysqlSettings->endGroup();
 
-    mysqlSettings->beginGroup("User");
+    mysqlSettings->beginGroup(DMSServerUserSection);
     {
-      userName = mysqlSettings->value("User").toString();
-      userPassword = mysqlSettings->value("Password").toString();
+      userName = mysqlSettings->value(DMSServerUserKey).toString();
+      userPassword = mysqlSettings->value(DMSServerPasswordKey).toString();
       userPassword = QVariant(Base64::decode(userPassword)).toString();
     }
     mysqlSettings->endGroup();
     homeFolder.clear();
 
     Database::databaseInstance()->setDatabaseInformation(userHost, userName, userPassword, userPort);
-    if( !Database::databaseInstance()->openConnection() ) {
 
-      userName.clear();
-      userPassword.clear();
-      userHost.clear();
-      userPort = -1;
+    userName = QString::null;
+    userPassword = QString::null;
+    userHost = QString::null;
+    userPort = -1;
+
+    if( !Database::databaseInstance()->openConnection() ) {
 
       delete mysqlSettings;
       mysqlSettings = 0;
@@ -114,11 +117,6 @@ int main( int argc, char **argv ) {
 
       return 0;
     }
-
-    userName.clear();
-    userPassword.clear();
-    userHost.clear();
-    userPort = -1;
 
     delete mysqlSettings;
     mysqlSettings = 0;

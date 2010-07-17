@@ -7,7 +7,7 @@
         <file alias="db">images/db.png</file>
         <file alias="dbedit">images/dbedit.png</file>
         <file alias="dbs">images/dbs.png</file>
-		<file alias="dms_banner">images/dms_banner.png</file>
+		    <file alias="dms_banner">images/dms_banner.png</file>
         <file alias="email">images/email.png</file>
         <file alias="error">images/error.png</file>
         <file alias="exit">images/exit.png</file>
@@ -32,7 +32,7 @@
         <file alias="user_add">images/user_add.png</file>
         <file alias="user_remove">images/user_remove.png</file>
         <file alias="users">images/users.png</file>
-		<file alias="wizard">images/wizard.png</file>
+		    <file alias="wizard">images/wizard.png</file>
         <file alias="author">misc/AUTHOR</file>
         <file alias="license">misc/COPYING</file>
         <file alias="install">misc/INSTALL</file>

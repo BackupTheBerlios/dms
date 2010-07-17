@@ -63,21 +63,31 @@ void ConnectionWizard::closeEvent( QCloseEvent *event ) {
 
 void ConnectionWizard::accept() {
 
-  QString homeFolder = QDir::homePath();
+  QString homeFolder = QString::null;
+
+#if defined(Q_OS_WIN32)
+  homeFolder = DMSConfigDirectory;
+#else
+  homeFolder = QDir::homePath();
   homeFolder.append(DMSConfigDirectory);
+  QDir settingsDir(homeFolder);
+  if( !settingsDir.exists() )
+    settingsDir.mkpath(homeFolder);
+#endif
+
   homeFolder.append(QString("/%1").arg(DMSDatabaseConfigFile));
 
   QSettings *mysqlSettings = new QSettings(homeFolder, QSettings::IniFormat, this);
   QString userPassword = Base64::encode(QVariant(mLineEditPassword->text()).toByteArray());
 
-  mysqlSettings->beginGroup("Server");
-  mysqlSettings->setValue("Host", mLineEditHost->text());
-  mysqlSettings->setValue("Port", mSpinBoxPort->value());
+  mysqlSettings->beginGroup(DMSServerSection);
+  mysqlSettings->setValue(DMSServerHostKey, mLineEditHost->text());
+  mysqlSettings->setValue(DMSServerPortKey, mSpinBoxPort->value());
   mysqlSettings->endGroup();
 
-  mysqlSettings->beginGroup("User");
-  mysqlSettings->setValue("User", mLineEditUsername->text());
-  mysqlSettings->setValue("Password", userPassword);
+  mysqlSettings->beginGroup(DMSServerUserSection);
+  mysqlSettings->setValue(DMSServerUserKey, mLineEditUsername->text());
+  mysqlSettings->setValue(DMSServerPasswordKey, userPassword);
   mysqlSettings->endGroup();
   mysqlSettings->sync();
 
@@ -124,8 +134,12 @@ void ConnectionWizard::slotTestConnection() {
     return;
   }
 
-  if( userHost.isEmpty() || userHost.isNull() )
-    userHost = "localhost";
+  if( userHost.isEmpty() || userHost.isNull() ) {
+
+    mButtonTestConnection->setEnabled(true);
+    QMessageBox::critical(this, QApplication::applicationName(), tr("Enter a valid host name or a TCP/IP address."));
+    return;
+  }
 
   Database::databaseInstance()->setDatabaseInformation(userHost, userName, userPassword, userPort);
   mConnectionEstablished = Database::databaseInstance()->openConnection();
