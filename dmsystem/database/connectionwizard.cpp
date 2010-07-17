@@ -50,7 +50,7 @@ ConnectionWizard::ConnectionWizard( QWidget *parent, Qt::WindowFlags flags )
   connect(this, SIGNAL(currentIdChanged(int)), this, SLOT(slotCurrentIdChanged(int)));
 
   setFiniheButtonEnabled(false);
-  mSetupPage->setFinalPage(true);
+  setPixmap(QWizard::BackgroundPixmap, QPixmap(":/wizard"));
 }
 
 ConnectionWizard::~ConnectionWizard() {

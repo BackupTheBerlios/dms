@@ -46,11 +46,16 @@ int main( int argc, char **argv ) {
   app.setOrganizationName(DMSSoftOrganization);
   app.setOrganizationDomain(DMSSoftOrganizationDomain);
 
-  QString homeFolder = QDir::homePath();
+  QString homeFolder = QString::null;
+#if defined(Q_OS_WIN32)
+  homeFolder = DMSConfigDirectory;
+#else
+  homeFolder = QDir::homePath();
   homeFolder.append(DMSConfigDirectory);
   QDir settingsDir(homeFolder);
   if( !settingsDir.exists() )
     settingsDir.mkpath(homeFolder);
+#endif
 
   homeFolder.append(QString("/%1").arg(DMSDatabaseConfigFile));
   QFile settingFile(homeFolder);

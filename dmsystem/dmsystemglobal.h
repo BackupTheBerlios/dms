@@ -39,7 +39,7 @@
 
 #if defined(Q_OS_WIN) || defined(Q_OS_WIN32)
   #undef DMSConfigDirectory
-  #define DMSConfigDirectory QApplication::applicationDirPath();
+  #define DMSConfigDirectory QApplication::applicationDirPath()
 #elif defined(Q_WS_MAC) || defined(Q_OS_MAC) || defined(Q_WS_MAC64) || defined(Q_WS_MACX) || defined(Q_OS_MACX)
   #undef DMSConfigDirectory
   #define DMSConfigDirectory "/Library/Application Support/DMSystem"
