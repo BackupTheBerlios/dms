@@ -25,13 +25,15 @@
 #include "databaseuserdetails.h"
 
 #include <QCloseEvent>
+#include <QDateTime>
 
 using namespace asaal;
 
-User *mUserDetails = 0;
-
-DatabaseUserDetails::DatabaseUserDetails( QWidget *parent )
-  : QDialog( parent ) {
+DatabaseUserDetails::DatabaseUserDetails( const QString &userName, const QString &userPassword, QWidget *parent )
+  : QDialog( parent ),
+    mUserName(userName),
+    mUserPassword(userPassword),
+    mUserDetails(0) {
 
   setupUi(this);
 
@@ -42,11 +44,6 @@ DatabaseUserDetails::DatabaseUserDetails( QWidget *parent )
 DatabaseUserDetails::~DatabaseUserDetails() {
 }
 
-const User *DatabaseUserDetails::databaseUserDetails() {
-
-  return mUserDetails;
-}
-
 void DatabaseUserDetails::closeEvent( QCloseEvent *event ) {
 
   event->ignore();
@@ -55,7 +52,20 @@ void DatabaseUserDetails::closeEvent( QCloseEvent *event ) {
 void DatabaseUserDetails::slotOk() {
 
   mUserDetails = new User;
-  mUserDetails->userData = new UserData;
+  mUserDetails->mName = mUserName;
+  mUserDetails->mPassword = mUserPassword;
+
+  mUserDetails->mUserData = new UserData;
+  mUserDetails->mUserData->mFirstName = mLineEditFirstname->text();
+  mUserDetails->mUserData->mLastName = mLineEditLastname->text();
+  mUserDetails->mUserData->mStreet = mLineEditStreet->text();
+  mUserDetails->mUserData->mStreetNumber = mLineEditStreetNumber->text();
+  mUserDetails->mUserData->mCity = mLineEditCity->text();
+  mUserDetails->mUserData->mPostalCode = mLineEditZipCode->text();
+  mUserDetails->mUserData->mCountry = mLineEditCountry->text();
+  mUserDetails->mUserData->mEMail = mLineEditEMail->text();
+  mUserDetails->mUserData->mCreated = QDateTime::currentDateTime();
+  mUserDetails->mUserData->mUpdated = mUserDetails->mUserData->mCreated;
 
   QDialog::accept();
 }
@@ -64,9 +74,9 @@ void DatabaseUserDetails::slotCancel() {
 
   if( mUserDetails ) {
 
-    if( mUserDetails->userData )
-      delete mUserDetails->userData;
-    mUserDetails->userData = 0;
+    if( mUserDetails->mUserData )
+      delete mUserDetails->mUserData;
+    mUserDetails->mUserData = 0;
 
     delete mUserDetails;
     mUserDetails = 0;

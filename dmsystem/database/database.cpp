@@ -37,6 +37,10 @@
 #include <QUuid>
 #include <QVariant>
 
+#if defined(DMS_DEBUG)
+#include <QDebug>
+#endif
+
 using namespace asaal;
 
 static QSqlDatabase mCurrentDatabase;
@@ -98,6 +102,12 @@ bool Database::openConnection() {
         mConnectionIsAvailable &= initializeDatabase();
 
       break;
+    case MSSQL:
+      mLastErrorMessage.clear();
+      mLastErrorMessage = tr("MS SQL connection not supported at this time.");
+
+      mConnectionIsAvailable = false;
+      break;
     case SQLite3:
 
       mLastErrorMessage.clear();
@@ -120,6 +130,27 @@ bool Database::closeConnection() {
   }
 
   return connectionClosed;
+}
+
+bool Database::beginTransaction() {
+
+  if( mConnectionIsAvailable )
+    return mCurrentDatabase.transaction();
+  return false;
+}
+
+bool Database::rollback() {
+
+  if( mConnectionIsAvailable )
+    return mCurrentDatabase.rollback();
+  return false;
+}
+
+bool Database::commit() {
+
+  if( mConnectionIsAvailable )
+    return mCurrentDatabase.commit();
+  return false;
 }
 
 bool Database::login( const User *user ) {
@@ -202,19 +233,51 @@ void Database::createUser( const User *user ) {
 
     mLastErrorMessage.clear();
 
-    QString dateTime = QDateTime::currentDateTime().toString( Qt::ISODate );
+    QString userId = createUniqueId();
+    QString dateTime = QDateTime::currentDateTime().toString(Qt::ISODate);
     QString newUserStatement = QString("INSERT INTO USERS(UID, USERNAME, USERPASSWD, LOGGEDIN, CREATED, UPDATED)"
-                                       "VALUES ('%1', '%2', '%3', '%4', '%5', '%6')")
-                                      .arg(createUniqueId())
+                                       "VALUES('%1', '%2', '%3', '%4', '%5', '%6')")
+                                      .arg(userId)
                                       .arg(user->mName)
-                                      .arg(QVariant(Base64::decode(user->mPassword)).toString())
+                                      .arg(Base64::encode(QVariant(user->mPassword).toByteArray()))
                                       .arg(0)
                                       .arg(dateTime)
                                       .arg(dateTime);
 
+#if defined(DMS_DEBUG)
+    qDebug() << "Insert new user with SQL Statement: " << newUserStatement;
+#endif
+
     QSqlQuery newUserQuery(mCurrentDatabase);
     newUserQuery.exec(newUserStatement);
     if( newUserQuery.isActive() ) {
+
+      if( user->mUserData && !user->mUserData->isEmpty() ) {
+
+        newUserQuery.clear();
+        newUserStatement = QString("INSERT INTO USERSDATA(UDID, UID, FNAME, LNAME, STREETNAME, STREETNR, CITY, ZIPCODE, COUNTRY, EMAIL, CREATED, UPDATED)"
+                                   "VALUES ( '%1', '%2', '%3', '%4', '%5', '%6', '%7', '%8', '%9', '%10', '%11', '%12')")
+                                   .arg(createUniqueId())
+                                   .arg(userId)
+                                   .arg(user->mUserData->mFirstName)
+                                   .arg(user->mUserData->mLastName)
+                                   .arg(user->mUserData->mStreet)
+                                   .arg(user->mUserData->mStreetNumber)
+                                   .arg(user->mUserData->mCity)
+                                   .arg(user->mUserData->mPostalCode)
+                                   .arg(user->mUserData->mCountry)
+                                   .arg(user->mUserData->mEMail)
+                                   .arg(dateTime)
+                                   .arg(dateTime);
+
+#if defined(DMS_DEBUG)
+        qDebug() << "Insert new user data with SQL Statement: " << newUserStatement;
+#endif
+
+        newUserQuery.exec(newUserStatement);
+        if( !newUserQuery.isActive() )
+          mLastErrorMessage = newUserQuery.lastError().text();
+      }
 
       newUserStatement.clear();
       newUserStatement = QString::null;
@@ -224,8 +287,12 @@ void Database::createUser( const User *user ) {
 
       newUserQuery.clear();
     }
-    else
+    else {
       mLastErrorMessage = newUserQuery.lastError().text();
+    }
+  }
+  else {
+    mLastErrorMessage = tr("");
   }
 }
 
@@ -303,6 +370,7 @@ const QList<Document *> Database::documents( const User *user ) {
   if( user && mConnectionIsAvailable ) {
   }
 
+  Q_UNUSED(document)
   return documentList;
 }
 

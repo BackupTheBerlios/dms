@@ -38,13 +38,18 @@ namespace asaal {
       Q_OBJECT
 
     public:
-      DatabaseUserDetails( QWidget *parent = 0 );
+      DatabaseUserDetails( const QString &userName, const QString &userPassword, QWidget *parent = 0 );
       ~DatabaseUserDetails();
 
-      const User *databaseUserDetails();
+    const User *databaseUserDetails() const { return mUserDetails; }
 
     protected:
       void closeEvent( QCloseEvent *event );
+
+    private:
+      QString mUserName;
+      QString mUserPassword;
+      User *mUserDetails;
 
     private slots:
       void slotOk();

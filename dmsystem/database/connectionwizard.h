@@ -47,9 +47,10 @@ namespace asaal {
       void setNextButtonEnabled( bool enabled = true );
 
     private slots:
-      void	slotCurrentIdChanged( int id );
+      void slotCurrentIdChanged( int id );
       void slotTestConnection();
       void slotAddUser();
+      void slotRemoveUser();
 
     protected:
       void closeEvent( QCloseEvent *event );

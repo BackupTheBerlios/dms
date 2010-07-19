@@ -71,6 +71,9 @@ void DMSystem::closeEvent( QCloseEvent *event ) {
 }
 
 void DMSystem::setArguments( int argc, char **argv ) {
+  
+  Q_UNUSED(argc)
+  Q_UNUSED(argv)
 }
 
 void DMSystem::initializeToolBar() {

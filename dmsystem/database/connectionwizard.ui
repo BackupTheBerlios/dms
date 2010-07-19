@@ -45,7 +45,7 @@
    <attribute name="pageId">
     <string notr="true">0</string>
    </attribute>
-   <layout class="QVBoxLayout" name="verticalLayout">
+   <layout class="QVBoxLayout" name="verticalLayoutWelcomePage">
     <item>
      <spacer name="verticalSpacerWelcomeTop">
       <property name="orientation">
@@ -97,7 +97,7 @@ Click 'Next' to continue or 'Abort' to close this wizard.</string>
    <attribute name="pageId">
     <string notr="true">1</string>
    </attribute>
-   <layout class="QVBoxLayout" name="verticalLayout_4">
+   <layout class="QVBoxLayout" name="verticalLayoutSetupPage">
     <item>
      <widget class="QLabel" name="labelAuthenticationInfo">
       <property name="text">
@@ -117,32 +117,32 @@ required.</string>
         <item>
          <widget class="QLabel" name="labelDatabseUsername">
           <property name="text">
-           <string>Database user name</string>
+           <string>Database user name*</string>
           </property>
           <property name="buddy">
-           <cstring>mLineEditUsername</cstring>
+           <cstring>mLineEditDatabaseUsername</cstring>
           </property>
          </widget>
         </item>
         <item>
-         <widget class="QLineEdit" name="mLineEditUsername"/>
+         <widget class="QLineEdit" name="mLineEditDatabaseUsername"/>
         </item>
        </layout>
       </item>
       <item>
        <layout class="QVBoxLayout" name="verticalLayoutPassword">
         <item>
-         <widget class="QLabel" name="labelDatabasePassword">
+         <widget class="QLabel" name="labelDatabaseUserPassword">
           <property name="text">
            <string>Database password</string>
           </property>
           <property name="buddy">
-           <cstring>mLineEditPassword</cstring>
+           <cstring>mLineEditDatabaseUserPassword</cstring>
           </property>
          </widget>
         </item>
         <item>
-         <widget class="QLineEdit" name="mLineEditPassword">
+         <widget class="QLineEdit" name="mLineEditDatabaseUserPassword">
           <property name="echoMode">
            <enum>QLineEdit::Password</enum>
           </property>
@@ -187,7 +187,7 @@ TCP/IP port. Enter the details for your database connection below.</string>
         <item>
          <widget class="QLabel" name="labelHost">
           <property name="text">
-           <string>Hostname or IP address</string>
+           <string>Hostname or IP address*</string>
           </property>
           <property name="buddy">
            <cstring>mLineEditHost</cstring>
@@ -291,9 +291,9 @@ TCP/IP port. Enter the details for your database connection below.</string>
    <attribute name="pageId">
     <string notr="true">2</string>
    </attribute>
-   <layout class="QVBoxLayout" name="verticalLayout_7">
+   <layout class="QVBoxLayout" name="verticalLayoutUserPage">
     <item>
-     <widget class="QLabel" name="labelAuthenticationInfo_2">
+     <widget class="QLabel" name="labelGeneralUserInfo">
       <property name="text">
        <string>A username and password is usually used to authenticate your
 documents. Enter your username and password below. With (*)
@@ -302,7 +302,7 @@ are required fields.</string>
      </widget>
     </item>
     <item>
-     <layout class="QHBoxLayout" name="horizontalLayout">
+     <layout class="QHBoxLayout" name="horizontalLayoutGeneralUser">
       <property name="topMargin">
        <number>5</number>
       </property>
@@ -310,30 +310,30 @@ are required fields.</string>
        <number>10</number>
       </property>
       <item>
-       <layout class="QVBoxLayout" name="verticalLayout_5">
+       <layout class="QVBoxLayout" name="verticalLayoutGeneralUsername">
         <item>
-         <widget class="QLabel" name="label">
+         <widget class="QLabel" name="labelGeneralUsername">
           <property name="text">
            <string>Username*</string>
           </property>
          </widget>
         </item>
         <item>
-         <widget class="QLineEdit" name="lineEdit"/>
+         <widget class="QLineEdit" name="mLineEditGeneralUsername"/>
         </item>
        </layout>
       </item>
       <item>
-       <layout class="QVBoxLayout" name="verticalLayout_3">
+       <layout class="QVBoxLayout" name="verticalLayoutGeneralUserPassword">
         <item>
-         <widget class="QLabel" name="label_2">
+         <widget class="QLabel" name="labelGeneralUserPassword">
           <property name="text">
            <string>Password*</string>
           </property>
          </widget>
         </item>
         <item>
-         <widget class="QLineEdit" name="lineEdit_2">
+         <widget class="QLineEdit" name="mLineEditGeneralUserPassword">
           <property name="echoMode">
            <enum>QLineEdit::Password</enum>
           </property>
@@ -342,16 +342,16 @@ are required fields.</string>
        </layout>
       </item>
       <item>
-       <layout class="QVBoxLayout" name="verticalLayout_2">
+       <layout class="QVBoxLayout" name="verticalLayoutGeneralUserPasswordConfirm">
         <item>
-         <widget class="QLabel" name="label_3">
+         <widget class="QLabel" name="labelGeneralUserPasswordConfirm">
           <property name="text">
            <string>Confirm password*</string>
           </property>
          </widget>
         </item>
         <item>
-         <widget class="QLineEdit" name="lineEdit_3">
+         <widget class="QLineEdit" name="mLineEditGeneralUserPasswordConfirm">
           <property name="echoMode">
            <enum>QLineEdit::Password</enum>
           </property>
@@ -362,7 +362,7 @@ are required fields.</string>
      </layout>
     </item>
     <item>
-     <widget class="QLabel" name="labelAuthenticationInfo_3">
+     <widget class="QLabel" name="labelGeneralUserDetailInfo">
       <property name="text">
        <string>User details is usually used to authenticate the user documents
 and user. Enter your user details below.</string>
@@ -370,9 +370,9 @@ and user. Enter your user details below.</string>
      </widget>
     </item>
     <item>
-     <layout class="QHBoxLayout" name="horizontalLayout_3">
+     <layout class="QHBoxLayout" name="horizontalLayoutGeneralUserDetails">
       <item>
-       <widget class="QTreeWidget" name="treeWidget">
+       <widget class="QTreeWidget" name="mTreeWidgetUsers">
         <property name="focusPolicy">
          <enum>Qt::NoFocus</enum>
         </property>
@@ -397,11 +397,6 @@ and user. Enter your user details below.</string>
         <column>
          <property name="text">
           <string>Username</string>
-         </property>
-        </column>
-        <column>
-         <property name="text">
-          <string>Password</string>
          </property>
         </column>
         <column>
@@ -447,9 +442,9 @@ and user. Enter your user details below.</string>
        </widget>
       </item>
       <item>
-       <layout class="QVBoxLayout" name="verticalLayout_6">
+       <layout class="QVBoxLayout" name="verticalLayoutGeneralUserDetailsButton">
         <item>
-         <widget class="QToolButton" name="toolButton">
+         <widget class="QToolButton" name="mToolButtonAddUser">
           <property name="icon">
            <iconset resource="../../resource/dmsystem.qrc">
             <normaloff>:/user_add</normaloff>:/user_add</iconset>
@@ -457,7 +452,7 @@ and user. Enter your user details below.</string>
          </widget>
         </item>
         <item>
-         <widget class="QToolButton" name="toolButton_2">
+         <widget class="QToolButton" name="mToolButtonRemoveUser">
           <property name="text">
            <string>...</string>
           </property>
@@ -468,7 +463,7 @@ and user. Enter your user details below.</string>
          </widget>
         </item>
         <item>
-         <spacer name="verticalSpacer_3">
+         <spacer name="verticalSpacerGeneralUserDetails">
           <property name="orientation">
            <enum>Qt::Vertical</enum>
           </property>
@@ -485,46 +480,21 @@ and user. Enter your user details below.</string>
      </layout>
     </item>
     <item>
-     <layout class="QHBoxLayout" name="horizontalLayout_2">
-      <item>
-       <widget class="QLabel" name="labelUserInfo">
-        <property name="text">
-         <string/>
-        </property>
-       </widget>
-      </item>
-      <item>
-       <spacer name="horizontalSpacer">
-        <property name="orientation">
-         <enum>Qt::Horizontal</enum>
-        </property>
-        <property name="sizeHint" stdset="0">
-         <size>
-          <width>40</width>
-          <height>20</height>
-         </size>
-        </property>
-       </spacer>
-      </item>
-      <item>
-       <widget class="QPushButton" name="mButtonAddUser">
-        <property name="text">
-         <string>Add user(s)</string>
-        </property>
-        <property name="icon">
-         <iconset resource="../../resource/dmsystem.qrc">
-          <normaloff>:/ok</normaloff>:/ok</iconset>
-        </property>
-       </widget>
-      </item>
-     </layout>
+     <widget class="QLabel" name="labelUserInfo">
+      <property name="text">
+       <string/>
+      </property>
+      <property name="alignment">
+       <set>Qt::AlignCenter</set>
+      </property>
+     </widget>
     </item>
    </layout>
   </widget>
  </widget>
  <tabstops>
-  <tabstop>mLineEditUsername</tabstop>
-  <tabstop>mLineEditPassword</tabstop>
+  <tabstop>mLineEditDatabaseUsername</tabstop>
+  <tabstop>mLineEditDatabaseUserPassword</tabstop>
   <tabstop>mLineEditHost</tabstop>
   <tabstop>mSpinBoxPort</tabstop>
   <tabstop>mButtonTestConnection</tabstop>

@@ -59,6 +59,12 @@
 
 namespace asaal {
 
+  enum DMSWizardPage {
+    WelcomePage = 0,
+    SetupPage = 1,
+    FinalPage = 2
+  };
+
   static inline void centerWidget( QWidget *widget, QWidget *subWidget, bool isSubWidget) {
 
     if( !widget )

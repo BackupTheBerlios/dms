@@ -25,15 +25,15 @@ BEGIN
     BEGIN
         BLOCK "040904b0"
         BEGIN
-            VALUE "Comments", "DMS - Document Management System"
+            VALUE "Comments", "DMS - A light weight Document Management System"
             VALUE "CompanyName", "Alexander Saal"
-            VALUE "FileDescription", "DMS - Document Management System"
+            VALUE "FileDescription", "DMS - A light weight Document Management System"
             VALUE "FileVersion", "0.9.5.0"
             VALUE "InternalName", "DMSystem"
-            VALUE "LegalCopyright", "Copyright (C) 2007-2010 by Alexander Saal"
+            VALUE "LegalCopyright", "Copyright (C) 2008-2010 by Alexander Saal"
             VALUE "LegalTrademarks", "DMS"
             VALUE "OriginalFilename", "DMSystem.exe"
-            VALUE "ProductName", "DMS - Document Management System"
+            VALUE "ProductName", "DMS - A light weight Document Management System"
             VALUE "ProductVersion", "0.9.5.0"
         END
     END

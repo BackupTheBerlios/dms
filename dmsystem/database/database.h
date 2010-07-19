@@ -48,13 +48,24 @@ namespace asaal {
     QString mEMail;
     QDateTime mCreated;
     QDateTime mUpdated;
+
+    inline bool isEmpty() {
+
+      return ( mFirstName.isEmpty() || mFirstName.isNull() ) &&
+             ( mLastName.isEmpty() || mLastName.isNull() ) && 
+             ( mStreet.isEmpty() || mStreet.isNull() ) && 
+             ( mStreetNumber.isEmpty() || mStreetNumber.isNull() ) && 
+             ( mCity.isEmpty() || mCity.isNull() ) && 
+             ( mPostalCode.isEmpty() || mPostalCode.isNull() ) &&
+             ( mEMail.isEmpty() || mEMail.isNull() );
+    }
   };
 
   struct User {
     QString mId;
     QString mName;
     QString mPassword;
-    UserData *userData;
+    UserData *mUserData;
   };
 
   struct Groups {
@@ -93,6 +104,10 @@ namespace asaal {
 
       bool openConnection();
       bool closeConnection();
+
+      bool beginTransaction();
+      bool rollback();
+      bool commit();
 
       bool login( const User *user );
       bool logout();
