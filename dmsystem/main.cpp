@@ -59,11 +59,6 @@ int main( int argc, char **argv ) {
 
   homeFolder.append(QString("/%1").arg(DMSDatabaseConfigFile));
   QFile settingFile(homeFolder);
-
-#if defined(DMS_DEBUG)
-  settingFile.remove();
-#endif
-
   if( !settingFile.exists() ) {
 
     ConnectionWizard *wizard = new ConnectionWizard();

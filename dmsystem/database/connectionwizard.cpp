@@ -191,13 +191,13 @@ void ConnectionWizard::slotAddUser() {
 
   if( mLineEditGeneralUsername->text().isEmpty() || mLineEditGeneralUsername->text().isNull() ) {
 
-    QMessageBox::critical(this, QApplication::applicationName(), tr("No user name was entered."));
+    QMessageBox::critical(this, QApplication::applicationName(), tr("Enter a valid user name."));
     return;
   }
 
   if( mLineEditGeneralUserPassword->text().isEmpty() || mLineEditGeneralUserPassword->text().isNull() ) {
 
-    QMessageBox::critical(this, QApplication::applicationName(), tr("No user password was entered."));
+    QMessageBox::critical(this, QApplication::applicationName(), tr("Enter a password for the given user."));
     return;
   }
 

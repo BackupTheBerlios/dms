@@ -64,8 +64,6 @@ void DatabaseUserDetails::slotOk() {
   mUserDetails->mUserData->mPostalCode = mLineEditZipCode->text();
   mUserDetails->mUserData->mCountry = mLineEditCountry->text();
   mUserDetails->mUserData->mEMail = mLineEditEMail->text();
-  mUserDetails->mUserData->mCreated = QDateTime::currentDateTime();
-  mUserDetails->mUserData->mUpdated = mUserDetails->mUserData->mCreated;
 
   QDialog::accept();
 }

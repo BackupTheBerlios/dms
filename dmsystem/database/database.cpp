@@ -31,6 +31,7 @@
 #include <QSqlDatabase>
 #include <QSqlQuery>
 #include <QSqlError>
+#include <QSqlRecord>
 #include <QString>
 #include <QStringList>
 #include <QTextStream>
@@ -244,10 +245,6 @@ void Database::createUser( const User *user ) {
                                       .arg(dateTime)
                                       .arg(dateTime);
 
-#if defined(DMS_DEBUG)
-    qDebug() << "Insert new user with SQL Statement: " << newUserStatement;
-#endif
-
     QSqlQuery newUserQuery(mCurrentDatabase);
     newUserQuery.exec(newUserStatement);
     if( newUserQuery.isActive() ) {
@@ -269,10 +266,6 @@ void Database::createUser( const User *user ) {
                                    .arg(user->mUserData->mEMail)
                                    .arg(dateTime)
                                    .arg(dateTime);
-
-#if defined(DMS_DEBUG)
-        qDebug() << "Insert new user data with SQL Statement: " << newUserStatement;
-#endif
 
         newUserQuery.exec(newUserStatement);
         if( !newUserQuery.isActive() )
@@ -304,8 +297,9 @@ const QList<User *> Database::users() {
 
     mLastErrorMessage.clear();
 
+    QString userQueryStatement = "SELECT UID, USERNAME, USERPASSWD FROM USERS ORDER BY USERNAME";
     QSqlQuery userQuery(mCurrentDatabase);
-    userQuery.exec("SELECT UID, USERNAME, USERPASSWD FROM USERS ORDER BY USERNAME");
+    userQuery.exec(userQueryStatement);
     if( userQuery.isActive() ) {
 
       while( userQuery.next() ) {
@@ -313,7 +307,36 @@ const QList<User *> Database::users() {
         user = new User;
         user->mId = userQuery.value(0).toString();
         user->mName = userQuery.value(1).toString();
+
+        userQueryStatement.clear();
+        userQueryStatement = QString("SELECT UDID, UID, FNAME, LNAME, STREETNAME, STREETNR, CITY, ZIPCODE, COUNTRY, EMAIL, CREATED, UPDATED "
+                                     "FROM USERSDATA WHERE UID = '%1'").arg(user->mId);
+        userQuery.clear();
+        userQuery.exec(userQueryStatement);
+        if( userQuery.isActive() ) {
+
+          if( userQuery.record().count() >= 1 ) {
+
+            while( userQuery.next() ) {
+
+              user->mUserData = new UserData;
+              user->mUserData->mId = userQuery.value(0).toString();
+              user->mUserData->mUserId = userQuery.value(1).toString();
+              user->mUserData->mFirstName = userQuery.value(2).toString();
+              user->mUserData->mLastName = userQuery.value(3).toString();
+              user->mUserData->mStreet = userQuery.value(4).toString();
+              user->mUserData->mStreetNumber = userQuery.value(5).toString();
+              user->mUserData->mCity = userQuery.value(6).toString();
+              user->mUserData->mPostalCode = userQuery.value(7).toString();
+              user->mUserData->mCountry = userQuery.value(8).toString();
+              user->mUserData->mEMail = userQuery.value(9).toString();
+              user->mUserData->mCreated = userQuery.value(11).toDateTime();
+              user->mUserData->mUpdated = userQuery.value(12).toDateTime();
+            }
+          }
+        }
         userList.append(user);
+        userQueryStatement.clear();
       }
       userQuery.clear();
     }
