@@ -439,9 +439,18 @@ void Database::addDocumentToUser( const QString &documentId, const QString &user
 
 bool Database::initializeDatabase() {
 
-  bool initializeFinished = false;
+  bool initializeFinished = true;
 
-  QFile dbSqlFile(":/mysql_script");
+  QFile dbSqlFile(this);
+  switch( mDatabaseType ) {
+    case MySQL:
+      dbSqlFile.setFileName(":/mysql_script");
+      break;
+    case MSSQL:
+      break;
+    case SQLite3:
+      break;
+  }
   if( dbSqlFile.open(QIODevice::ReadOnly | QIODevice::Text) ) {
 
     QTextStream inStream(&dbSqlFile);
@@ -451,17 +460,27 @@ bool Database::initializeDatabase() {
       QString sqlLine = inStream.readLine();
       if( !sqlLine.isEmpty() || !sqlLine.isNull() ) {
 
-        initializeFinished = dbQuery.exec(sqlLine);
+        dbQuery.exec(sqlLine);
+        initializeFinished &= dbQuery.isActive();
         dbQuery.clear();
       }
     }
 
-    dbQuery.exec("INSERT INTO `GROUPS` ( `GID`, `GROUPNAME`, `GROUPDESCRIPTION`, `CREATED`, `UPDATED` ) VALUES ( 'b6d80cef14084a5b95643ea010484855', 'Default', 'Default group for all documents.', CURRENT_DATE, CURRENT_DATE );");
-    dbQuery.clear();
+    QString dbQueryStatement = QString("INSERT INTO `GROUPS` ( `GID`, `GROUPNAME`, `GROUPDESCRIPTION`, `CREATED`, `UPDATED` ) "
+                                       "VALUES ( '%1', 'Default', 'Default group for all documents.', CURRENT_DATE, CURRENT_DATE );")
+                                       .arg(createUniqueId());
+    dbQuery.exec(dbQueryStatement);
+    dbQueryStatement.clear();
+    if( !dbQuery.isActive() ) {
 
-    if( initializeFinished )
+      mLastErrorMessage.clear();
+      mLastErrorMessage = dbQuery.lastError().text();
+    }
+    else {
+
       mCurrentDatabase.setDatabaseName(mDatabaseName);
-
+    }
+    dbQuery.clear();
     dbSqlFile.close();
   }
 
