@@ -330,8 +330,8 @@ const QList<User *> Database::users() {
               user->mUserData->mPostalCode = userQuery.value(7).toString();
               user->mUserData->mCountry = userQuery.value(8).toString();
               user->mUserData->mEMail = userQuery.value(9).toString();
-              user->mUserData->mCreated = userQuery.value(11).toDateTime();
-              user->mUserData->mUpdated = userQuery.value(12).toDateTime();
+              user->mUserData->mCreated = userQuery.value(10).toDateTime();
+              user->mUserData->mUpdated = userQuery.value(11).toDateTime();
             }
           }
         }
