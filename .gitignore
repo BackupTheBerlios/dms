@@ -21,3 +21,6 @@ build/
 *.pdb
 Makefile
 
+
+*.Debug
+*.Release
